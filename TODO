@@ -1,0 +1,18 @@
+TODO
+====
+
+* [ ] wxPython integration
+* [ ] window title is not the one expected (e.g. look at 05.2.IndexedFaceSet)
+* [ ] Make a Star Wars like text demo
+* [ ] Finalize popup menu actions (render buffer, stereo mode, etc.)
+* [ ] Improve automatic testing
+* [ ] Add middle mouse button for translation
+* [ ] Restore *Editor classes
+* [ ] Use EGL in wxWidgets (required in ubuntu)
+* [X] wxQT does not support wxGLAttributes, require list of int!
+    Fixed now use list of int
+* [ ] wxX11 does not support wxCheckButtons
+* [ ] Color Editor does not work in stand-alone mode :-/
+* [ ] Add missing classes
+* [X] tripleview is not realising resource properly
+* [ ] embeddedexaminer does not refresh while moving splitter

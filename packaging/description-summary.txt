@@ -1,0 +1,2 @@
+SoWx is a wxWidgets GUI component toolkit library for Coin.
+The library is released publicly under the 3-clause BSD  license (see COPYING).

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+	<object class="wxFrame" name="AFrame">
+		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
+		<size>500,300</size>
+		<title></title>
+		<centered>1</centered>
+		<aui_managed>0</aui_managed>
+		<object class="wxStatusBar" name="status_bar">
+			<style>wxSTB_SIZEGRIP</style>
+			<fields>1</fields>
+		</object>
+		<object class="wxMenuBar" name="menu_bar">
+			<object class="wxMenu" name="file">
+				<label>File</label>
+				<object class="wxMenuItem" name="about">
+					<label>About</label>
+					<help></help>
+				</object>
+				<object class="wxMenuItem" name="quit">
+					<label>Quit</label>
+					<help></help>
+				</object>
+			</object>
+		</object>
+		<object class="wxPanel" name="panel">
+			<style>wxTAB_TRAVERSAL</style>
+		</object>
+	</object>
+</resource>

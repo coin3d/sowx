@@ -1,0 +1,16 @@
+The example sources found in the subdirectories of this directory is
+small, self-contained Wx- or SoWx-specific tests.
+
+Compilation after a correct SoWx-installation on your system is done
+by executing
+
+        $ sowx-config --build <executable name> <sourcefile.cpp>
+
+(``sowx-config'' must be in your $PATH).
+
+The sources are all under the 3-clause BSD license.
+
+
+--
+Fabrizio Morciano
+mortene@sim.no

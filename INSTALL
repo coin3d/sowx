@@ -1,0 +1,25 @@
+Cookbook Procedure
+==================
+
+  1) set up and enter a build directory
+
+    $ mkdir build && cd build
+
+  2) run cmake
+
+    $ cmake ..
+
+    For setting an installation different from /usr/local add to cmake option:
+    -DCMAKE_INSTALL_PREFIX=<your installation path /usr/local is the default>
+
+    If wxWidgets is not in a default path add to cmake the option:
+    -DCMAKE_PREFIX_PATH=</path/to/wxWidgets>
+
+    e.g.:
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/SoWx -DCMAKE_PREFIX_PATH=/opt/wxWidgets ..
+    This will install sowx in /opt/SoWx and will use the wxWidgets at /opt/wxWidgets
+
+  4) compile and install
+
+    $ make
+    $ sudo make install
