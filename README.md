@@ -50,4 +50,11 @@ in CMakeSettings.json
 
 ## Known limitations
 
+### X11 binding on wxWidgets
     
+X11 does not provide checkbuttons. This impact on ExaminerViewer.
+
+### Windows 
+
+On Windows there is a memory leak on exit from process. 
+

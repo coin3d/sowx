@@ -94,7 +94,7 @@ option(WITH_STATIC_DEFAULTS "Enable statically linked in default materials" ON)
 option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 option(SO${GUI}_USE_CPACK "If enabled the cpack subrepo is mandatory" OFF)
 option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
-option(SO${GUI}_BUILD_TESTS "Build small test programs." ON)
+option(SO${GUI}_BUILD_TESTS "Build small test programs." OFF)
 option(SO${GUI}_SANITIZE_ADDRES "Add sanitize address options." OFF)
 
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
