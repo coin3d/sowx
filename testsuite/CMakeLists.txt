@@ -1,5 +1,3 @@
-enable_testing()
-
 include(${wxWidgets_USE_FILE})
 add_definitions(-DWXINTL_NO_GETTEXT_MACRO -DSOWX_INTERNAL=1)
 
