@@ -3,6 +3,9 @@ Coin GUI binding for wxWidgets
 
 ## Platform supported
 
+[![Unix (CMake)](https://github.com/coin3d/sowx/actions/workflows/cmake.yml/badge.svg)](https://github.com/coin3d/sowx/actions/workflows/cmake.yml)
+
+
 Thanks to the powerful porting support provided by wxWidgets SoWx has been successfully compile on:
 
  - Linux
