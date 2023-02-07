@@ -4,7 +4,7 @@ executable(materialeditor  SOURCES materialeditor.cpp LIBS SoWx)
 
 executable(renderarea SOURCES renderarea.cpp LIBS SoWx)
 
-executable(wx_renderarea SOURCES wx_renderarea.cpp LIBS SoWx)
+executable(wx_renderarea SOURCES wx_renderarea.cpp LIBS SoWx OPTIONAL WINDOWS)
 
 #add_executable(scrollview components/scrollview.cpp)
 #target_link_libraries(scrollview SoWx)

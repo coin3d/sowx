@@ -90,7 +90,7 @@ dumpData(const wxWindow* w,
 std::string
 dumpWindowDataImpl(const wxWindow* window, int level) {
     if(window == 0) {
-        return ("windows is null\n");
+        return ("windows is null");
     }
 
     std::string out;

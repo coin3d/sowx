@@ -70,8 +70,8 @@ SoWx::init(int & argc,
     }
 
     SoWxP::instance()->setMainFrame( new wxFrame(0,
-                                                   wxID_ANY,
-                                                   appname));
+                                                 wxID_ANY,
+                                                 appname));
 
     assert(SoWxP::instance());
     assert(wxTheApp);
@@ -184,7 +184,7 @@ SoWx::createSimpleErrorDialog(wxWindow* widget,
 }
 
 wxWindow*
-getTopLevelWidget(void) {
+SoWx::getTopLevelWidget(void) {
     return (wxTheApp->GetTopWindow());
 }
 
@@ -197,15 +197,21 @@ SoWx::getShellWidget(const wxWindow* w) {
     while (p !=  NULL) {
         wxFrame* top_frame = dynamic_cast<wxFrame*>(p);
         if ( top_frame ) {
-            return p;
+            p = top_frame;
+            break;
         }
         p = p->GetParent();
     }
-#if SOWX_DEBUG && 0 // debug
-    SoDebugError::postInfo("SoWx::getShellWidget",
-                         "couldn't find shell for widget at %p", widget);
+#if SOWX_DEBUG
+    if(p) {
+        SoDebugError::postInfo("SoWx::getShellWidget",
+                               "found shell widget %p for %p", p, w);
+    } else {
+        SoDebugError::postInfo("SoWx::getShellWidget",
+                               "couldn't find shell for widget %p", w);
+    }
 #endif // debug
-    return (NULL);
+    return (p);
 #endif
 }
 
@@ -240,4 +246,5 @@ SoWx::getWidgetSize(const wxWindow* widget) {
                                   "null widget");
     }
 #endif // SOWX_DEBUG
+    return (size);
 }

@@ -372,12 +372,26 @@ SoWxComponent::getSize(void) const {
 
 void
 SoWxComponent::setTitle(const char * const title) {
-    SoWx::getShellWidget(this->getWidget())->SetName(title);
+    wxFrame* shell = dynamic_cast<wxFrame*>(SoWx::getShellWidget(this->getWidget()));
+    if(shell) {
+        shell->SetTitle(title);
+    } else {
+        SoDebugError::postWarning("SoWxComponent::setTitle",
+                               "can not set a title for null shell");
+    }
 }
 
 const char *
 SoWxComponent::getTitle(void) const {
-    return (SoWx::getShellWidget(this->getWidget())->GetName());
+    const char *title = "";
+    wxWindow* shell = SoWx::getShellWidget(this->getWidget());
+    if(shell) {
+        title = shell->GetName();
+    } else {
+        SoDebugError::postWarning("SoWxComponent::getTitle",
+                                  "can not get a title for null shell");
+    }
+    return (title);
 }
 
 void

@@ -117,22 +117,23 @@ SoWxComponentP::getNativeCursor(const SoWxCursor::CustomCursor *cc) {
         }
     }
 
+    wxCursor* down_cursor = nullptr;
 #ifdef __WXMSW__
-    wxBitmap down_bitmap(down_bits, 32, 32);
-    wxBitmap down_mask_bitmap(down_mask, 32, 32);
+    wxBitmap down_bitmap(wxImage(cursorbitmap), 32, 32);
+    wxBitmap down_mask_bitmap(wxImage(cursormask), 32, 32);
     down_bitmap.SetMask(new wxMask(down_mask_bitmap));
     wxImage down_image = down_bitmap.ConvertToImage();
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 14);
-    wxCursor down_cursor = wxCursor(down_image);
+    down_cursor = new wxCursor(down_image);
 #elif defined(__WXGTK__) or defined(__WXMOTIF__) or defined(__WXQT__)
-    wxCursor * c = new wxCursor(reinterpret_cast<const char *>(cursorbitmap), 32, 32, 6, 14,
+    down_cursor = new wxCursor(reinterpret_cast<const char *>(cursorbitmap), 32, 32, 6, 14,
                                     reinterpret_cast<const char *>(cursormask), wxWHITE, wxBLACK);
 #else
 #error "To be tested"
 #endif
-    SoWxComponentP::cursordict->enter((uintptr_t)cc, c);
-    return c;
+    SoWxComponentP::cursordict->enter((uintptr_t)cc, down_cursor);
+    return (down_cursor);
 }
 
 #undef PRIVATE
