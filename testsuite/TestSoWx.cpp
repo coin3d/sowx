@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(shouldVerifyVersion) {
     SoWx::getVersionInfo(&major,&minor,&release);
     BOOST_CHECK_EQUAL(major, 0);
     BOOST_CHECK_EQUAL(minor, 1);
-    BOOST_CHECK_EQUAL(release, 1);
+    BOOST_CHECK_EQUAL(release, 0);
 
     std::string oracle = buildVersion(major,minor,release);
     std::string s1 = SoWx::getVersionString();

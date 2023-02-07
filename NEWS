@@ -1,3 +1,3 @@
-SoWx 0.0.1 (2023-02-21):
+SoWx 0.1.0 (2023-02-06):
 * new:
-  - Start support for wxWidgets
+  - First support for wxWidgets
