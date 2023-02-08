@@ -6,20 +6,21 @@ Coin GUI binding for wxWidgets
 [![Unix (CMake)](https://github.com/coin3d/sowx/actions/workflows/cmake.yml/badge.svg)](https://github.com/coin3d/sowx/actions/workflows/cmake.yml)
 
 
-Thanks to the powerful porting support provided by wxWidgets SoWx has been successfully compile on:
+Thanks to the powerful porting support provided by wxWidgets SoWx compile and run on:
 
  - Linux
    - GTK binding (preferred)
    - X11 binding
    - Qt binding
- - Windows
- - Mac OS (coming soon)
+ - Windows 11 (Visual Studio 2022)
+
+MacOS is in progress.
 
 ## Linux compilation
 
 Required libs are:
 
- - wxWidgets (version >= 3.2)
+ - wxWidgets (version >= 3.1)
  - Coin (version >= 4.0)
  - boost (version >= 1.48 only for test )
 
@@ -27,12 +28,11 @@ For other details please refer to [INSTALL](./INSTALL) file.
 
 ## Windows compilation
 
-Building SoWx on Windows is done by using the CMake build configuration.
+Building SoWx on Windows requires cmake.
 
 Check out the detailed build instructions in the [INSTALL](./INSTALL) file.
 
 ***The Autotools build system will be not maintained.***
-
 
 ## cpack 
 
@@ -46,10 +46,10 @@ Packages for different platform can be generated using specific platforms
 (e.g. cpack --config cmake-build-debug/cpack.d/centos.cmake).
 
 
-## Windows address sanitizer
-Add 
-	"addressSanitizerEnabled": true,
-in CMakeSettings.json
+## Address sanitizer
+Added specific option on cmake
+    
+    cmake -DSOWX_SANITIZE_ADDRESS=ON ...
 
 ## Known limitations
 
@@ -59,5 +59,6 @@ X11 does not provide checkbuttons. This impact on ExaminerViewer.
 
 ### Windows 
 
-On Windows there is a memory leak on exit from process. 
+On Windows there is a memory leak when process exits.
+Cursor are not fully working yet.
 

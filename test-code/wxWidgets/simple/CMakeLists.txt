@@ -1,3 +1,1 @@
-add_executable(simple  main.cpp )
-#message(FATAL_ERROR ${Coin_LIBRARIES})
-target_link_libraries(simple ${wxWidgets_LIBRARIES} GL)
+executable(simple SOURCES main.cpp LIBS ${wxWidgets_LIBRARIES} OpenGL::GL OPTIONAL WINDOWS )
