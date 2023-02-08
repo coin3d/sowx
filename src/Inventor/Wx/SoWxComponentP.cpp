@@ -30,6 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
+#include <sstream>
 #include "Inventor/Wx/SoWxComponentP.h"
 #include "sowxdefs.h"
 #include "Inventor/Wx/SoAny.h"
@@ -118,16 +119,33 @@ SoWxComponentP::getNativeCursor(const SoWxCursor::CustomCursor *cc) {
     }
 
     wxCursor* down_cursor = nullptr;
+    static int counter = 0;
+
 #ifdef __WXMSW__
-    wxBitmap down_bitmap(wxImage(cursorbitmap), 32, 32);
-    wxBitmap down_mask_bitmap(wxImage(cursormask), 32, 32);
+    wxImage image( wxSize(16,16), cursorbitmap, true);
+    wxBitmap down_bitmap(image);
+    {
+        std::ostringstream oss;
+        oss << "raw_1_"<<counter << "_raw.jpg";
+        image.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
+    }
+
+    wxImage image_mask( wxSize(16,16), cursorbitmap, true);
+    wxBitmap down_mask_bitmap(image_mask);
+
+    {
+        std::ostringstream oss;
+        oss << "raw_2_"<< counter << "_raw.jpg";
+        image_mask.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
+    }
+
     down_bitmap.SetMask(new wxMask(down_mask_bitmap));
     wxImage down_image = down_bitmap.ConvertToImage();
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 14);
     down_cursor = new wxCursor(down_image);
 #elif defined(__WXGTK__) or defined(__WXMOTIF__) or defined(__WXQT__)
-    down_cursor = new wxCursor(reinterpret_cast<const char *>(cursorbitmap), 32, 32, 6, 14,
+    down_cursor = new wxCursor(reinterpret_cast<const char *>(cursorbitmap), 16, 16, -1, -1,
                                     reinterpret_cast<const char *>(cursormask), wxWHITE, wxBLACK);
 #else
 #error "To be tested"
