@@ -35,22 +35,78 @@
 */
 
 /***********************************************************************/
-#if 0
+
 #include <Inventor/Wx/SoWx.h>
 #include <Inventor/Wx/SoWxRenderArea.h>
 #include <Inventor/nodes/SoCone.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoSeparator.h>
-#include <qapplication.h>
-#include <qpainter.h>
-#if QT_VERSION < 0x040000 // Wx < 4.0.0
-#include <qscrollview.h>
-#else
-#include <qscrollarea.h>
-#endif
+
+#include <wx/scrolwin.h>
+#include <wx/gdicmn.h>
+#include <wx/string.h>
+#include <wx/sizer.h>
+#include <wx/frame.h>
+
+///////////////////////////////////////////////////////////////////////////
 
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class MyScrollView
+///////////////////////////////////////////////////////////////////////////////
+class MyScrollView : public wxFrame
+{
+private:
+    SoWxRenderArea * renderarea;
+    wxScrolledWindow* scrolledWindow;
+
+public:
+
+    MyScrollView( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL ) : wxFrame( parent, id, title, pos, size, style )
+    {
+        this->SetSizeHints( wxSize(500,500),
+                            wxSize(500,500) );
+
+        wxBoxSizer* sizer;
+        sizer = new wxBoxSizer( wxVERTICAL );
+
+        scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+        scrolledWindow->SetScrollRate( 5, 5 );
+        scrolledWindow->SetSize(wxSize(1000,1000));
+        sizer->Add( scrolledWindow, 1, wxEXPAND | wxALL, 5 );
+
+        // Construct a simple scenegraph.
+        SoSeparator * root = new SoSeparator;
+
+        SoDirectionalLight * light = new SoDirectionalLight;
+        light->direction.setValue(-0.5f, -0.5f, -0.8f);
+        root->addChild(light);
+
+        SoPerspectiveCamera * camera = new SoPerspectiveCamera;
+        camera->orientation = SbRotation(SbVec3f(0, 0, 1), 0);
+        root->addChild(camera);
+
+        SoCone * cone = new SoCone;
+        root->addChild(cone);
+
+        // Add the renderarea.
+        renderarea = new SoWxRenderArea(scrolledWindow);
+        renderarea->setSceneGraph(root);
+        camera->viewAll(root, renderarea->getViewportRegion());
+
+        this->SetSizer( sizer );
+        this->Layout();
+
+        this->Centre( wxBOTH );
+    }
+
+    ~MyScrollView()
+    {
+    }
+};
+
+#if 0
 class MyScrollView : public QScrollArea {
 public:
   MyScrollView(QWidget * parent) : QScrollArea(parent)
@@ -106,28 +162,24 @@ private:
   SoWxRenderArea * renderarea;
 };
 
+#endif
+
 /***********************************************************************/
 
 int
 main(int argc, char ** argv)
 {
   // Initialize Wx and SoWx.
-  QApplication app(argc, argv);
-  SoWx::init((QWidget *)NULL);
+  SoWx::init((wxWindow*)NULL);
 
   // Set up scrollview window.
   MyScrollView * vp = new MyScrollView(NULL);
-#if QT_VERSION < 0x040000 // Wx < 4.0.0
-  vp->viewport()->setBackgroundMode(QWidget::NoBackground);
-#endif
 
   // Map window.
-  vp->show();
-  // Set termination condition.
-  QObject::connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+  vp->Show();
+
   // Start event loop.
   SoWx::mainLoop();
 
   return 0;
 }
-#endif

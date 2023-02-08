@@ -166,8 +166,12 @@ set(SO${GUI}_PKG_DEPS "Coin wxWidgets OpenGL")
 # ##########################################################################
 
 if (SO${GUI}_SANITIZE_ADDRES)
-  add_compile_options(-fsanitize=address)
-  add_link_options(-fsanitize=address)
+    if(MSVC)
+        add_compile_options(/fsanitize=address)
+     else()
+        add_compile_options(-fsanitize=address)
+        add_link_options(-fsanitize=address)
+    endif()
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)

@@ -32,9 +32,12 @@
 
 #include "Inventor/Wx/SoWx.h"
 #include "Inventor/Wx/SoWxP.h"
-#include <wx/event.h>
+
 #include "Inventor/Wx/SoWxInternal.h"
 #include "sowxdefs.h"
+
+#include <wx/event.h>
+#include <wx/msgdlg.h>
 
 wxWindow*
 SoWx::init(int & argc,
@@ -180,7 +183,28 @@ SoWx::createSimpleErrorDialog(wxWindow* widget,
                               const char * title,
                               const char * string1,
                               const char * string2 ) {
-    SOWX_STUB();
+    if (SOWX_DEBUG && !title) {
+        SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
+                                  "Called with NULL title pointer.");
+    }
+    if (SOWX_DEBUG && !string1) {
+        SoDebugError::postWarning("SoQt::createSimpleErrorDialog",
+                                  "Called with NULL error string pointer.");
+    }
+
+    SbString t(title ? title : "");
+    SbString errstr(string1 ? string1 : "");
+
+    if (string2) {
+        errstr += '\n';
+        errstr += string2;
+    }
+
+    wxMessageDialog errorDialog(widget,
+                    errstr.getString(),
+                    t.getString(),
+                                wxICON_ERROR| wxOK | wxCENTRE | wxSTAY_ON_TOP );
+    errorDialog.ShowModal();
 }
 
 wxWindow*
@@ -190,9 +214,6 @@ SoWx::getTopLevelWidget(void) {
 
 wxWindow*
 SoWx::getShellWidget(const wxWindow* w) {
-#if 0
-    return (wxGetTopLevelParent((wxWindowBase *) w));
-#else
     wxWindow* p = const_cast<wxWindow*>(w);
     while (p !=  NULL) {
         wxFrame* top_frame = dynamic_cast<wxFrame*>(p);
@@ -212,7 +233,6 @@ SoWx::getShellWidget(const wxWindow* w) {
     }
 #endif // debug
     return (p);
-#endif
 }
 
 void
@@ -229,7 +249,6 @@ SoWx::setWidgetSize(wxWindow* const widget, const SbVec2s size) {
     }
 #endif // SOWX_DEBUG
 }
-
 
 SbVec2s
 SoWx::getWidgetSize(const wxWindow* widget) {

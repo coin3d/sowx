@@ -6,10 +6,9 @@ executable(renderarea SOURCES renderarea.cpp LIBS SoWx)
 
 executable(wx_renderarea SOURCES wx_renderarea.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-#add_executable(scrollview components/scrollview.cpp)
-#target_link_libraries(scrollview SoWx)
+executable(scrollview SOURCES scrollview.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(tripleview SOURCES tripleview.cpp LIBS SoWx)
+executable(tripleview SOURCES tripleview.cpp LIBS SoWx OPTIONAL WINDOWS)
 
 executable(withoutdecor0 SOURCES withoutdecor0.cpp LIBS SoWx)
 

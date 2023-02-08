@@ -1,5 +1,4 @@
-/* src/config.h.in.  Generated from configure.ac by autoheader.  */
-
+/* src/config.h.in.  Generated from cmake.  */
 
 #ifndef SOWX_INTERNAL
 #error this is a private header file

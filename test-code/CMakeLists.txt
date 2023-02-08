@@ -24,6 +24,7 @@ include_directories(
         ${wxWidgets_INCLUDE_DIRS}
 )
 
+add_subdirectory(base)
 add_subdirectory(assertdbg)
 add_subdirectory(components)
 add_subdirectory(Mentor)

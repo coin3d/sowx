@@ -29,16 +29,27 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
-#ifndef SOWX_SOWXINTERNAL_H
-#define SOWX_SOWXINTERNAL_H
 
-#include <Inventor/Wx/SoWxBasic.h>
+#include <Inventor/Wx/SoWx.h>
 #include <wx/wx.h>
 
-class SOWX_DLL_API SoWxInternal {
-
+/*
+ * Build an error dialog and after show a frame.
+ */
+class MyApp : public wxApp
+{
+public:
+    virtual bool OnInit() wxOVERRIDE {
+        if ( !wxApp::OnInit() )
+            return false;
+        wxFrame* w = new wxFrame(0, wxID_ANY, "Hello");
+        w->SetBackgroundColour(wxColour(244,0,0));
+        SoWx::createSimpleErrorDialog(w, "Title", "A message");
+        w->Show();
+        return true;
+    }
 };
 
-SOWX_DLL_API std::string dumpWindowData(const wxWindow* window);
 
-#endif //SOWX_SOWXINTERNAL_H
+
+wxIMPLEMENT_APP(MyApp);

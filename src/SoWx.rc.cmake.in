@@ -17,17 +17,17 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Kongsberg Oil & Gas Technologies AS"
-            VALUE "FileDescription", "A wxWidgets Gui-toolkit binding for Coin3D, 3D graphics rendering library - www.github.com/coin3d"
+            VALUE "CompanyName", ""
+            VALUE "FileDescription", "A wxWidgets Gui-toolkit binding for Coin3D, 3D graphics rendering library - github.com/coin3d/sowx"
             VALUE "FileVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @SOWX_BETA_VERSION@"
             VALUE "InternalName", "@PROJECT_NAME@"
-            VALUE "LegalCopyright", "Copyright (c) @SOWX_BUILD_YEAR@ Kongsberg Oil & Gas Technologies AS"
+            VALUE "LegalCopyright", "Copyright (c) @SOWX_BUILD_YEAR@ Fabrizio Morciano"
 #ifdef _DEBUG
             VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@d.dll"
 #else
             VALUE "OriginalFilename", "@PROJECT_NAME@@PROJECT_VERSION_MAJOR@.dll"
 #endif
-            VALUE "ProductName", "Coin3D"
+            VALUE "ProductName", "SoWx"
             VALUE "ProductVersion","@PROJECT_VERSION_MAJOR@, @PROJECT_VERSION_MINOR@, @PROJECT_VERSION_PATCH@, @SOWX_BETA_VERSION@"
         END
     END
