@@ -6,7 +6,7 @@ executable(renderarea SOURCES renderarea.cpp LIBS SoWx)
 
 executable(wx_renderarea SOURCES wx_renderarea.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(scrollview SOURCES scrollview.cpp LIBS SoWx OPTIONAL WINDOWS)
+executable(scrollview SOURCES scrollview.cpp LIBS SoWx)
 
 executable(tripleview SOURCES tripleview.cpp LIBS SoWx OPTIONAL WINDOWS)
 

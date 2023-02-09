@@ -92,61 +92,41 @@ SoWxComponentP::getNativeCursor(const SoWxCursor::CustomCursor *cc) {
         return (wxCursor *)qc;
     }
 
-#define MAXBITMAPWIDTH 32
-#define MAXBITMAPHEIGHT 32
-#define MAXBITMAPBYTES (((MAXBITMAPWIDTH + 7) / 8) * MAXBITMAPHEIGHT)
-
-    uint8_t cursorbitmap[MAXBITMAPBYTES];
-    uint8_t cursormask[MAXBITMAPBYTES];
-    (void)memset(cursorbitmap, 0x00, MAXBITMAPBYTES);
-    (void)memset(cursormask, 0x00, MAXBITMAPBYTES);
-
-    if ( !(cc->dim[0] <= MAXBITMAPWIDTH) )
-        printf("cursor bitmap width too large: %d\n", cc->dim[0]);
-    if ( !(cc->dim[1] <= MAXBITMAPHEIGHT) )
-        printf("cursor bitmap height too large: %d\n", cc->dim[1]);
-    assert(cc->dim[0] <= MAXBITMAPWIDTH && "internal bitmap too large");
-    assert(cc->dim[1] <= MAXBITMAPHEIGHT && "internal bitmap too large");
-
-    const int BYTEWIDTH = (cc->dim[0] + 7) / 8;
-    for (int h=0; h < cc->dim[1]; h++) {
-        for (int w=0; w < BYTEWIDTH; w++) {
-            const int cursorpos = h * ((MAXBITMAPWIDTH + 7) / 8) + w;
-            const int nativepos = h * BYTEWIDTH + w;
-            cursorbitmap[cursorpos] = cc->bitmap[nativepos];
-            cursormask[cursorpos] = cc->mask[nativepos];
-        }
-    }
-
     wxCursor* down_cursor = nullptr;
     static int counter = 0;
 
 #ifdef __WXMSW__
-    wxImage image( wxSize(16,16), cursorbitmap, true);
-    wxBitmap down_bitmap(image);
+    wxBitmap down_bitmap((const char *)cc->bitmap, cc->dim[0], cc->dim[1] );
+    /*
     {
         std::ostringstream oss;
         oss << "raw_1_"<<counter << "_raw.jpg";
-        image.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
+        down_bitmap.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
     }
-
-    wxImage image_mask( wxSize(16,16), cursorbitmap, true);
-    wxBitmap down_mask_bitmap(image_mask);
-
+     */
+    wxBitmap down_mask_bitmap((const char*)cc->mask, cc->dim[0], cc->dim[1]);
+/*
     {
         std::ostringstream oss;
         oss << "raw_2_"<< counter << "_raw.jpg";
-        image_mask.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
+        down_mask_bitmap.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
     }
-
+*/
     down_bitmap.SetMask(new wxMask(down_mask_bitmap));
     wxImage down_image = down_bitmap.ConvertToImage();
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 6);
     down_image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 14);
+  /*
+    {
+        std::ostringstream oss;
+        oss << "raw_3_"<< counter << "_raw.jpg";
+        down_image.SaveFile(oss.str(), wxBITMAP_TYPE_JPEG);
+    }
+    */
     down_cursor = new wxCursor(down_image);
 #elif defined(__WXGTK__) or defined(__WXMOTIF__) or defined(__WXQT__)
-    down_cursor = new wxCursor(reinterpret_cast<const char *>(cursorbitmap), 16, 16, -1, -1,
-                                    reinterpret_cast<const char *>(cursormask), wxWHITE, wxBLACK);
+    down_cursor = new wxCursor(reinterpret_cast<const char *>(cc->bitmap), cc->dim[0], cc->dim[1], -1, -1,
+                                    reinterpret_cast<const char *>(cc->mask), wxWHITE, wxBLACK);
 #else
 #error "To be tested"
 #endif

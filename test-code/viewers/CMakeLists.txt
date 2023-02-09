@@ -1,11 +1,12 @@
-executable(bottomtrim OPTIONAL WINDOWS SOURCES bottomtrim.cpp LIBS SoWx  OPTIONAL WINDOWS)
+if(NOT MSVC)
+	executable(bottomtrim OPTIONAL WINDOWS SOURCES bottomtrim.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(lefttrim  SOURCES lefttrim.cpp LIBS SoWx  OPTIONAL WINDOWS)
+	executable(lefttrim  SOURCES lefttrim.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(righttrim  SOURCES righttrim.cpp LIBS SoWx  OPTIONAL WINDOWS)
+	executable(righttrim  SOURCES righttrim.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(fullviewer SOURCES fullviewer.cpp LIBS SoWx)
-
+	executable(fullviewer SOURCES fullviewer.cpp LIBS SoWx)
+endif()
 executable(examinerviewer SOURCES examinerviewer.cpp LIBS SoWx)
 
 executable(embeddedexaminer SOURCES embeddedexaminer.cpp LIBS SoWx)

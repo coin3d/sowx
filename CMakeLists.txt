@@ -8,6 +8,9 @@ set(EVENT wxEvent&)
 
 set (CMAKE_CXX_STANDARD 11)
 
+# Only interpret if() arguments as variables or keywords when unquoted.
+cmake_policy(SET CMP0054 NEW)
+
 function(dump_variable)
   if (SO${GUI}_VERBOSE)
     foreach(f ${ARGN})
@@ -95,6 +98,7 @@ option(HAVE_SPACENAV_SUPPORT "Enable Space Navigator support" ON)
 option(SO${GUI}_USE_CPACK "If enabled the cpack subrepo is mandatory" OFF)
 option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requires Doxygen)." OFF)
 option(SO${GUI}_BUILD_TESTS "Build small test programs." OFF)
+option(SO${GUI}_BUILD_UNIT_TESTS "Build unit test." OFF)
 option(SO${GUI}_SANITIZE_ADDRESS "Add sanitize address options." OFF)
 
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
@@ -425,8 +429,12 @@ add_subdirectory(src)
 
 ##### small test programs (to be run interactively)
 if (SO${GUI}_BUILD_TESTS)
-  enable_testing()
   add_subdirectory(test-code)
+endif()
+
+##### unit test (to be run automatically)
+if (SO${GUI}_BUILD_UNIT_TESTS)
+  enable_testing()
   add_subdirectory(testsuite)
 endif()
 

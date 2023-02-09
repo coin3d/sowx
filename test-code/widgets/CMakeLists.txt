@@ -1,12 +1,12 @@
 
-executable(thumbwheel SOURCES thumbwheel.cpp LIBS SoWx)
+executable(thumbwheel SOURCES thumbwheel.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(gridbagsizer SOURCES gridbagsizer.cpp LIBS SoWx)
+executable(gridbagsizer SOURCES gridbagsizer.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(gridbagsizer2 SOURCES gridbagsizer2.cpp LIBS SoWx)
+executable(buttons SOURCES buttons.cpp LIBS SoWx OPTIONAL WINDOWS)
 
-executable(multisizer SOURCES multisizer.cpp LIBS SoWx)
-
-executable(buttons SOURCES buttons.cpp LIBS SoWx)
-
-executable(glarea SOURCES glarea.cpp LIBS SoWx)
+if(NOT MSVC)
+	executable(gridbagsizer2 SOURCES gridbagsizer2.cpp LIBS SoWx OPTIONAL WINDOWS)
+	executable(multisizer SOURCES multisizer.cpp LIBS SoWx OPTIONAL WINDOWS)
+	executable(glarea SOURCES glarea.cpp LIBS SoWx OPTIONAL WINDOWS)
+endif()
