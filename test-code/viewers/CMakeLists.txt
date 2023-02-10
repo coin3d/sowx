@@ -7,11 +7,14 @@ if(NOT MSVC)
 
 	executable(fullviewer SOURCES fullviewer.cpp LIBS SoWx)
 endif()
+
 executable(examinerviewer SOURCES examinerviewer.cpp LIBS SoWx)
 
 executable(embeddedexaminer SOURCES embeddedexaminer.cpp LIBS SoWx)
 
 executable(allviewer SOURCES allviewer.cpp LIBS SoWx)
 
-executable(background_canvas SOURCES background_canvas.cpp LIBS SoWx OpenGL::GL)
+if(NOT SO${GUI}_USE_OIV)
+	executable(background_canvas SOURCES background_canvas.cpp LIBS SoWx OpenGL::GL)
+endif()
 

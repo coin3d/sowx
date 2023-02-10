@@ -35,7 +35,7 @@
 #include "Inventor/Wx/SoGuiGLWidgetP.h"
 #include "Inventor/Wx/SoWxGLWidget.h"
 
-#include <Inventor/SbVec2s.h>
+#include <Inventor/SbLinear.h>
 
 #include <wx/glcanvas.h>
 #include <wx/wx.h>

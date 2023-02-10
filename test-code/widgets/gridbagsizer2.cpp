@@ -33,9 +33,8 @@
 #include "wx/wx.h"
 #include "wx/button.h"
 #include "wx/gbsizer.h"
-#define  SOWX_INTERNAL
 #include <Inventor/Wx/SoWx.h>
-#include "Inventor/Wx/SoWxP.h"
+#define  SOWX_INTERNAL
 #define protected public
 #include <Inventor/Wx/viewers/SoWxFullViewer.h>
 #undef protected

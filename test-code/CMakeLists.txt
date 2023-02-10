@@ -6,7 +6,7 @@ function(executable executable_name)
     if( ${executable_WINDOWS} AND MSVC)
         set_target_properties(${executable_name}  PROPERTIES LINK_FLAGS /SUBSYSTEM:WINDOWS)
     endif()
-    target_link_libraries(${executable_name} ${executable_LIBS})
+    target_link_libraries(${executable_name} ${executable_LIBS} )
 endfunction(executable)
 
 dump_variable(

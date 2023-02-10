@@ -52,7 +52,7 @@ SoWxComponentP::~SoWxComponentP() {
 }
 
 static void
-delete_dict_value(SbDict::Key key, void * value) {
+delete_dict_value(unsigned long key, void * value) {
     delete (wxCursor*)value;
 }
 

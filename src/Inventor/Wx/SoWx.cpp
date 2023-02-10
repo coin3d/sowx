@@ -165,7 +165,10 @@ SoWx::done() {
   SoInteraction::finish();
   SoNodeKit::finish();
 #endif
+
+#ifndef HAVE_OIV
     SoDB::finish();
+#endif
 }
 
 void

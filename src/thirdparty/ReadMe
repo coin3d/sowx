@@ -1,0 +1,6 @@
+This folder contains code for successfully compilation of SoWx with SGI Open Inventor
+(e.g. Ubuntu).
+Symbols required by sogui common code have been stubbed in this folder.
+This only for tests, the usage is not for code production.
+
+
