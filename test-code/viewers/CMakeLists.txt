@@ -7,6 +7,7 @@ if(NOT MSVC)
 
 	executable(fullviewer SOURCES fullviewer.cpp LIBS SoWx)
 endif()
+
 executable(examinerviewer SOURCES examinerviewer.cpp LIBS SoWx)
 
 executable(embeddedexaminer SOURCES embeddedexaminer.cpp LIBS SoWx)

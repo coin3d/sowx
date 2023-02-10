@@ -4,6 +4,11 @@ configure_file(config.h.cmake.in config.h)
 # This is pulled from the subrepo SoGui.
 add_subdirectory(Inventor/${Gui}/common)
 
+if(SO${GUI}_USE_OIV)
+  include_directories(thirdparty)
+  add_subdirectory(thirdparty)
+endif()
+
 file(GLOB_RECURSE COMMON_HDRS ${CMAKE_CURRENT_BINARY_DIR}/*.h)
 file(GLOB_RECURSE COMMON_SRCS ${CMAKE_CURRENT_BINARY_DIR}/*.cpp)
 
