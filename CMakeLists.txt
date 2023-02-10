@@ -138,9 +138,11 @@ else()
 	endif()
 	find_library(OIV_LIBRARY "Inventor")
 	if(NOT OIV_LIBRARY)
-		message(FATAL_ERROR "Open Inventor Missing")	
-	endif()
+		message(FATAL_ERROR "Open Inventor Missing")
+    endif()
+    add_definitions(-DHAVE_OIV=1)
 endif()
+
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED gl core base)
 
@@ -411,7 +413,7 @@ endif()
 set(USE_EXCEPTIONS ON)
 set(HAVE_JOYSTICK_LINUX OFF)
 
-# TODO:
+# TODO: add joystick
 #if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Linux")
 #  set(HAVE_JOYSTICK_LINUX 1)
 #endif()

@@ -5,23 +5,24 @@ extern "C" {
 #endif /* __cplusplus */
 
 COIN_DLL_API cc_mutex * cc_mutex_construct(void) {
-
+    return (0);
 }
 
 COIN_DLL_API void cc_mutex_destruct(cc_mutex * mutex) {
-
+    (void)(mutex);
 }
 
 COIN_DLL_API void cc_mutex_lock(cc_mutex * mutex) {
-
+    (void)(mutex);
 }
 
 COIN_DLL_API int cc_mutex_try_lock(cc_mutex * mutex) {
-
+    (void)(mutex);
+    return (0);
 }
 
 COIN_DLL_API void cc_mutex_unlock(cc_mutex * mutex) {
-
+    (void)(mutex);
 }
 
 #ifdef __cplusplus

@@ -5,8 +5,8 @@ configure_file(config.h.cmake.in config.h)
 add_subdirectory(Inventor/${Gui}/common)
 
 if(SO${GUI}_USE_OIV)
-  include_directories(thirdparty)
-  add_subdirectory(thirdparty)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
+  set(thirdparty_SRCS thirdparty/Inventor/C/threads/mutex.cpp)
 endif()
 
 file(GLOB_RECURSE COMMON_HDRS ${CMAKE_CURRENT_BINARY_DIR}/*.h)
@@ -74,6 +74,7 @@ set(SRCS
   Inventor/${Gui}/widgets/So${Gui}ThumbWheel.cpp
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
   Inventor/${Gui}/widgets/WheelEvents.cpp     # added
+  ${thirdparty_SRCS} # For providing Coin specific code
 )
 
 file(GLOB_RECURSE COMMON_RESOURCES ${CMAKE_BINARY_DIR}/data/materials/*.h)

@@ -39,6 +39,8 @@
 
 #include "sowxdefs.h"
 
+#include <wx/version.h>
+
 #define PRIVATE(obj) ((obj)->pimpl)
 #define PUBLIC(obj) ((obj)->pub)
 
@@ -326,8 +328,10 @@ SoWxGLWidgetP::getOverlayContext(void) {
 SbBool
 SoWxGLWidgetP::isDirectRendering(void) {
     SbBool res = FALSE;
-    //TODO: if(this->currentglarea && this->currentglarea->GetGLCTXAttrs().x11Direct)
+#if wxCHECK_VERSION(3, 1, 0)
+     if(this->currentglarea && this->currentglarea->GetGLCTXAttrs().x11Direct)
         res = TRUE;
+#endif
     return (res);
 }
 

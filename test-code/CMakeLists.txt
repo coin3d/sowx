@@ -6,11 +6,7 @@ function(executable executable_name)
     if( ${executable_WINDOWS} AND MSVC)
         set_target_properties(${executable_name}  PROPERTIES LINK_FLAGS /SUBSYSTEM:WINDOWS)
     endif()
-    if(SO${GUI}_USE_OIV)
-        target_link_libraries(${executable_name} ${executable_LIBS} coin_threads)
-    else()
-        target_link_libraries(${executable_name} ${executable_LIBS} )
-    endif()
+    target_link_libraries(${executable_name} ${executable_LIBS} )
 endfunction(executable)
 
 dump_variable(

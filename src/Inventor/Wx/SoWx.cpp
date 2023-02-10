@@ -166,7 +166,9 @@ SoWx::done() {
   SoNodeKit::finish();
 #endif
 
-//TODO:    SoDB::finish();
+#ifndef HAVE_OIV
+    SoDB::finish();
+#endif
 }
 
 void

@@ -93,7 +93,9 @@ SoWxKeyboard::translateEvent(wxEvent& event) {
         // Allocate system-neutral event object once and reuse.
         if (!PRIVATE(this)->kbdevent) PRIVATE(this)->kbdevent = new SoKeyboardEvent;
 
-        //TODO: PRIVATE(this)->kbdevent->setPrintableCharacter( key );
+#ifndef HAVE_OIV
+        PRIVATE(this)->kbdevent->setPrintableCharacter( key );
+#endif
 
         // Translate keycode wx -> So
         void *table;
