@@ -26,6 +26,13 @@ Required libs are:
 
 For other details please refer to [INSTALL](./INSTALL) file.
 
+
+Note on cmake find_package on Linux systems
+
+find_package uses a FindwxWidgets.cmake facility.
+On Unix like systems requires wx-config, so be sure that wx-config will be in the PATH.
+
+
 ## Windows compilation
 
 Building SoWx on Windows requires cmake.

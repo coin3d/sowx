@@ -19,6 +19,8 @@ Cookbook Procedure
     cmake -DCMAKE_INSTALL_PREFIX=/opt/SoWx -DCMAKE_PREFIX_PATH=/opt/wxWidgets ..
     This will install sowx in /opt/SoWx and will use the wxWidgets at /opt/wxWidgets
 
+    Note on Unix system wx-config need to be in the path for proper usage of finder.
+
   4) compile and install
 
     $ make
