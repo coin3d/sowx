@@ -151,8 +151,12 @@ if(NOT SO${GUI}_BUILD_MAC_FRAMEWORK)
   target_include_directories(${PROJECT_NAME} INTERFACE $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 endif()
 
-#target_link_libraries(${PROJECT_NAME} Coin::Coin ${SOWX_OPENGL_LIBRARIES} ${wxWidgets_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} Coin::Coin ${wxWidgets_LIBRARIES})
+if(NOT SO${GUI}_USE_OIV)
+	target_link_libraries(${PROJECT_NAME} Coin::Coin ${wxWidgets_LIBRARIES})
+else()
+	target_link_libraries(${PROJECT_NAME} ${OIV_LIBRARY} ${wxWidgets_LIBRARIES})
+endif()
+
 
 # Add a target to generate API documentation with Doxygen
 if(SO${GUI}_BUILD_DOCUMENTATION)

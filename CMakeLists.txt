@@ -100,6 +100,7 @@ option(SO${GUI}_BUILD_DOCUMENTATION "Build and install API documentation (requir
 option(SO${GUI}_BUILD_TESTS "Build small test programs." OFF)
 option(SO${GUI}_BUILD_UNIT_TESTS "Build unit test." OFF)
 option(SO${GUI}_SANITIZE_ADDRESS "Add sanitize address options." OFF)
+option(SO${GUI}_USE_OIV "Use Open Inventor implementation." OFF)
 
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
@@ -128,6 +129,18 @@ report_prepare(
 
 # Fail early if one of the required packages cannot be found
 
+if(NOT SO${GUI}_USE_OIV)
+	find_package(Coin REQUIRED)
+else()
+	find_path(OIV_INCLUDE_DIR "Inventor/SoDB.h")
+	if(NOT OIV_INCLUDE_DIR)
+		message(FATAL_ERROR "Open Inventor Missing")	
+	endif()
+	find_library(OIV_LIBRARY "Inventor")
+	if(NOT OIV_LIBRARY)
+		message(FATAL_ERROR "Open Inventor Missing")	
+	endif()
+endif()
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED gl core base)
 
@@ -156,11 +169,6 @@ if (X11_FOUND)
     set(SOWX_OPENGL_INCLUDE_DIRECTORIES ${X11_INCLUDE_DIR} ${OPENGL_INCLUDE_DIR})
     set(SOWX_OPENGL_LIBRARIES ${OPENGL_LIBRARIES})
   endif ()
-endif()
-
-find_package(Coin)
-if(NOT Coin_FOUND)
-  MESSAGE(FATAL_ERROR "Found Coin")
 endif()
 
 set(SO${GUI}_PKG_DEPS "Coin wxWidgets OpenGL")
@@ -282,7 +290,11 @@ elseif(FUNCTION)
 endif()
 
 set(CMAKE_REQUIRED_INCLUDES ${SOWX_OPENGL_INCLUDE_DIRECTORIES})
-set(CMAKE_REQUIRED_LIBRARIES Coin::Coin ${SOWX_OPENGL_LIBRARIES})
+if(NOT SO${GUI}_USE_OIV)
+	set(CMAKE_REQUIRED_LIBRARIES Coin::Coin ${SOWX_OPENGL_LIBRARIES})
+else()
+	set(CMAKE_REQUIRED_LIBRARIES ${OIV_LIBRARY} ${SOWX_OPENGL_LIBRARIES})
+endif()
 
 check_include_files(windows.h HAVE_WINDOWS_H)
 if(HAVE_WINDOWS_H)

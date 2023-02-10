@@ -44,7 +44,7 @@ struct SoWxKeyboardP::key1map SoWxKeyboardP::wxToSoMapping[] = {
 #ifdef HAVE_SOKEYBOARDEVENT_DELETE
         {WXK_DELETE, SoKeyboardEvent::DELETE, '.'},
 #else
-        {WXK_DELETE, SoKeyboardEvent::KEY_DELETE, '.'},
+        // TODO: {WXK_DELETE, SoKeyboardEvent::KEY_DELETE, '.'},
 #endif
         {WXK_PAUSE, SoKeyboardEvent::PAUSE, '.'},
         {WXK_PRINT, SoKeyboardEvent::PRINT, '.'},

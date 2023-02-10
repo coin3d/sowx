@@ -165,7 +165,8 @@ SoWx::done() {
   SoInteraction::finish();
   SoNodeKit::finish();
 #endif
-    SoDB::finish();
+
+//TODO:    SoDB::finish();
 }
 
 void
