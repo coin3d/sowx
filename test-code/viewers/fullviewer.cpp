@@ -46,6 +46,23 @@
 #include "common/get_scene_graph.h"
 
 
+
+class MyViewer : public SoWxFullViewer {
+public:
+    MyViewer(wxWindow* window) :
+            SoWxFullViewer(window,
+                           "Renderarea demonstration",
+                           FALSE,
+                           SoWxFullViewer::BUILD_ALL,
+                           SoWxViewer::BROWSER,
+                           FALSE) {
+
+    }
+    virtual wxWindow* buildBottomTrim(wxWindow* parent) {
+        return SoWxFullViewer::buildBottomTrim(parent);
+    }
+};
+
 // Define a new application type
 class MyApp : public wxApp
 {

@@ -43,6 +43,7 @@
 #include "wx/wx.h"
 #include "common/SimpleFrame.h"
 
+
 // Define a new application type
 class MyApp : public wxApp
 {

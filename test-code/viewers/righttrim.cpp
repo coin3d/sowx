@@ -33,16 +33,13 @@
 #include <Inventor/Wx/SoWx.h>
 #include "Inventor/Wx/SoWxInternal.h"
 
-#define protected public
-#include <Inventor/Wx/viewers/SoWxFullViewer.h>
-#undef protected
-
 #include <Inventor/nodes/SoPerspectiveCamera.h>
 #include <Inventor/nodes/SoDirectionalLight.h>
 #include <Inventor/nodes/SoSeparator.h>
 
 #include "wx/wx.h"
 #include "common/SimpleFrame.h"
+#include "common/MyViewer.h"
 
 // Define a new application type
 class MyApp : public wxApp
@@ -54,13 +51,7 @@ public:
 
         wxWindow* window = SoWx::init("renderarea");
 
-        SoWxFullViewer * renderarea =
-                new SoWxFullViewer(window,
-                                   "Renderarea demonstration",
-                                   FALSE,
-                                   SoWxFullViewer::BUILD_ALL,
-                                   SoWxViewer::BROWSER,
-                                   FALSE);
+        MyViewer * renderarea = new MyViewer(window);
 
         SimpleFrame* asimpleframe = new SimpleFrame(0,
                                                     "righttrim",
