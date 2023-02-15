@@ -2,7 +2,7 @@ TODO
 ====
 
 * [ ] wxPython integration
-* [ ] window title is not the one expected (e.g. look at 05.2.IndexedFaceSet)
+* [X] window title is not the one expected (e.g. look at 05.2.IndexedFaceSet)
 * [ ] Make a Star Wars like text demo
 * [ ] Finalize popup menu actions (render buffer, stereo mode, etc.)
 * [ ] Improve automatic testing
