@@ -78,9 +78,10 @@ SoWxComponentP::fatalerrorHandler(void *userdata) {
 }
 
 void
-SoWxComponentP::widgetClosed(void) {
-    SOWX_STUB();
-    if (this->closeCB) { this->closeCB(this->closeCBdata, PUBLIC(this)); }
+SoWxComponentP::widgetClosed(wxEvent&) {
+    if (this->closeCB) {
+        this->closeCB(this->closeCBdata, PUBLIC(this));
+    }
 }
 
 wxCursor *

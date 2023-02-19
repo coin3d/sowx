@@ -18,7 +18,7 @@ if(Boost_FOUND)
     add_subdirectory(widgets)
 
     set(TEST_NAME test_sowx)
-    add_executable(${TEST_NAME} TestSuiteMain.cpp TestSoWx.cpp)
+    add_executable(${TEST_NAME} TestSuiteMain.cpp TestSoWx.cpp TestSoWxComponent.cpp)
     target_link_libraries(${TEST_NAME}  SoWx )
 
     add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})

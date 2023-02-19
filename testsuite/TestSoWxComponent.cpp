@@ -29,48 +29,42 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
-#ifndef SOWX_SOWXCOMPONENTP_H
-#define SOWX_SOWXCOMPONENTP_H
 
-#include "Inventor/Wx/SoGuiComponentP.h"
+#define BOOST_TEST_NO_LIB 1
+#include <boost/test/unit_test.hpp>
+#include "Inventor/Wx/SoWx.h"
 #include "Inventor/Wx/SoWxComponent.h"
-#include <Inventor/Wx/SoWxCursor.h>
-#include <wx/window.h>
-#include <wx/frame.h>
 
-class SoWxComponentP : public SoGuiComponentP {
+BOOST_AUTO_TEST_SUITE(TestSoWxComponent);
+
+
+class MyComponent : public SoWxComponent {
 public:
-    SoWxComponentP(SoWxComponent * publ);
-    ~SoWxComponentP();
+    // make visible protected c'tor
+    MyComponent(wxWindow* const parent = NULL,
+                const char * const name = NULL,
+                const SbBool embed = TRUE) {
 
-    static void fatalerrorHandler(void * userdata);
-    static void atexit_cleanup();
-
-    static class wxCursor * getNativeCursor(const SoWxCursor::CustomCursor * cc);
-
-    // Variables.
-
-    wxWindow * parent;
-    wxWindow * widget;
-    SbBool embedded, shelled;
-    std::string classname, widgetname;
-    SoWxComponentCB * closeCB;
-    void * closeCBdata;
-    SbPList * visibilitychangeCBs;
-    SbBool realized;
-    SbVec2s storesize;
-    SbVec2s size;
-
-    SbBool fullscreen;
-
-    // virtual bool eventFilter(QObject * obj, QEvent * e);
-
-public:
-    void widgetClosed(wxEvent&);
-
-private:
-    static SbDict * cursordict;
+    }
 };
 
+void windowCloseCallback(void * user,
+                         SoWxComponent * /*component*/) {
+    bool* value = static_cast<bool*>(user);
+    BOOST_ASSERT(value != 0);
+    BOOST_ASSERT(*value == false);
+    *value = true;
+}
 
-#endif //SOWX_SOWXCOMPONENTP_H
+BOOST_AUTO_TEST_CASE(shouldCallFinishCallback) {
+    SoWx::init(static_cast<wxWindow*>(0));
+    MyComponent* component = new MyComponent;
+    bool status = false;
+    component->setWindowCloseCallback(windowCloseCallback,
+                                      &status);
+    delete component;
+    SoWx::done();
+    BOOST_ASSERT(status == true);
+}
+
+BOOST_AUTO_TEST_SUITE_END();

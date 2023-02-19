@@ -56,9 +56,7 @@
 
 SOWX_OBJECT_ABSTRACT_SOURCE(SoWxComponent);
 
-SoWxComponent::~SoWxComponent(){
-
-}
+static const char null_string[] = "(null)";
 
 SoWxComponent::SoWxComponent(wxWindow* const parent,
                              const char * const name,
@@ -85,6 +83,7 @@ SoWxComponent::SoWxComponent(wxWindow* const parent,
                                  this->getDefaultWidgetName());
 
     if (!parent || !embed) {
+        // without parent or not embedded build a frame
         PRIVATE(this)->parent = new wxFrame(NULL, wxID_ANY, name);
         PRIVATE(this)->embedded = false;
         PRIVATE(this)->shelled = true;
@@ -94,7 +93,22 @@ SoWxComponent::SoWxComponent(wxWindow* const parent,
         PRIVATE(this)->embedded = true;
     }
 
-    // TODO: PRIVATE(this)->parent->installEventFilter(PRIVATE(this));
+    PRIVATE(this)->parent->Bind(wxEVT_DESTROY, &SoWxComponentP::widgetClosed, PRIVATE(this));
+}
+
+SoWxComponent::~SoWxComponent(){
+    if (PRIVATE(this)->widget) {
+        this->unregisterWidget(PRIVATE(this)->widget);
+    }
+
+    delete PRIVATE(this)->visibilitychangeCBs;
+
+    // If we've got a toplevel widget on our hands it won't
+    // automatically be deallocated (there's no real parent widget).
+    if (!PRIVATE(this)->embedded && PRIVATE(this)->shelled)
+        delete PRIVATE(this)->parent;
+
+    delete PRIVATE(this);
 }
 
 void  SoWxComponent::initClasses(void) {
@@ -111,7 +125,7 @@ void  SoWxComponent::initClasses(void) {
 
 void
 SoWxComponent::afterRealizeHook(void) {
-    SOWX_STUB();
+    // do nothing
 }
 
 void
@@ -213,7 +227,6 @@ SoWxComponent::hide(void) {
 
 void
 SoWxComponent::setComponentCursor(const SoWxCursor & cursor) {
-    SOWX_STUB();
     SoWxComponent::setWidgetCursor(this->getWidget(), cursor);
 }
 
@@ -377,7 +390,7 @@ SoWxComponent::setTitle(const char * const title) {
         shell->SetTitle(title);
     } else {
         SoDebugError::postWarning("SoWxComponent::setTitle",
-                               "can not set a title for null shell");
+                                  "can not set a title for null shell");
     }
 }
 
@@ -407,37 +420,74 @@ SoWxComponent::getIconTitle(void) const {
 
 const char *
 SoWxComponent::getWidgetName(void) const{
-    SOWX_STUB();
-    return ("");
+    const char * result = null_string;
+
+    if (!PRIVATE(this)->widgetname.empty()) {
+        result = PRIVATE(this)->widgetname.c_str();
+    }
+
+    return result;
 }
 
 const char *
 SoWxComponent::getClassName(void) const {
-    SOWX_STUB();
-    return ("");
+    const char * result = null_string;
+
+    if (!PRIVATE(this)->classname.empty()) {
+        result = PRIVATE(this)->classname.c_str();
+    }
+
+    return result;
 }
 
 void
 SoWxComponent::setWindowCloseCallback(SoWxComponentCB * const func,
-                                      void * const user ) {
-    SOWX_STUB();
+                                      void * const data ) {
+    PRIVATE(this)->closeCB = func;
+    PRIVATE(this)->closeCBdata = data;
 }
+
 
 void
 SoWxComponent::sizeChanged(const SbVec2s & size) {
-    SOWX_STUB();
+    // The default implementation does nothing.
 }
 
 void
 SoWxComponent::addVisibilityChangeCallback(SoWxComponentVisibilityCB * const func,
                                            void * const user) {
-    SOWX_STUB();
+    if (! PRIVATE(this)->visibilitychangeCBs)
+        PRIVATE(this)->visibilitychangeCBs = new SbPList;
+
+    PRIVATE(this)->visibilitychangeCBs->append((void *) func);
+    PRIVATE(this)->visibilitychangeCBs->append(user);
 }
 
 void
 SoWxComponent::removeVisibilityChangeCallback(SoWxComponentVisibilityCB * const func,
                                               void * const user){
-    SOWX_STUB();
+#if SOQT_DEBUG
+    if (! PRIVATE(this)->visibilitychangeCBs) {
+    SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
+                              "empty callback list");
+    return;
+  }
+#endif // SOQT_DEBUG
+
+    int idx = PRIVATE(this)->visibilitychangeCBs->find((void *) func);
+    if (idx != -1) {
+        PRIVATE(this)->visibilitychangeCBs->remove(idx);
+        PRIVATE(this)->visibilitychangeCBs->remove(idx);
+    }
+
+#if SOQT_DEBUG
+    if (idx == -1) {
+    SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
+                              "tried to remove non-existant callback");
+    return;
+  }
+#endif // SOQT_DEBUG
+
 }
 
 #undef PUBLIC

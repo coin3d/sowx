@@ -10,6 +10,8 @@ endif()
 
 executable(examinerviewer SOURCES examinerviewer.cpp LIBS SoWx)
 
+executable(examinerviewer_with_callback SOURCES examinerviewer_with_callback.cpp LIBS SoWx)
+
 executable(embeddedexaminer SOURCES embeddedexaminer.cpp LIBS SoWx)
 
 executable(allviewer SOURCES allviewer.cpp LIBS SoWx)
