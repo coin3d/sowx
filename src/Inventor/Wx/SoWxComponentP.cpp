@@ -52,7 +52,11 @@ SoWxComponentP::~SoWxComponentP() {
 }
 
 static void
-delete_dict_value(unsigned long key, void * value) {
+#ifdef HAVE_OIV
+delete_dict_value(unsigned long /*key*/, void * value) {
+#else
+delete_dict_value(SbDictKeyType /*key*/, void* value) {
+#endif
     delete (wxCursor*)value;
 }
 

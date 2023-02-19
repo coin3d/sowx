@@ -8,9 +8,6 @@ set(EVENT wxEvent&)
 
 set (CMAKE_CXX_STANDARD 11)
 
-# Only interpret if() arguments as variables or keywords when unquoted.
-cmake_policy(SET CMP0054 NEW)
-
 function(dump_variable)
   if (SO${GUI}_VERBOSE)
     foreach(f ${ARGN})
@@ -55,15 +52,26 @@ string(TIMESTAMP SO${GUI}_BUILD_YEAR "%Y")
 math(EXPR SO${GUI}_SO_VERSION ${PROJECT_VERSION_MAJOR}*20)
 set(VERSION ${SO${GUI}_VERSION})
 
+if(POLICY CMP0054)
+  # Only interpret if() arguments as variables or keywords when unquoted.
+  cmake_policy(SET CMP0054 NEW)
+endif()
+
 if(POLICY CMP0072)
   # get rid of OpenGL GLVND warning from CMake 3.11
   cmake_policy(SET CMP0072 NEW)
+endif()
+
+if(POLICY CMP0074)
+  # find_package()`` uses ``<PackageName>_ROOT`` variables
+  cmake_policy(SET CMP0074 NEW)
 endif()
 
 if(POLICY CMP0075)
   # get rid of CMAKE_REQUIRED_LIBRARIES warning from CMake 3.12
   cmake_policy(SET CMP0075 NEW)
 endif()
+
 
 # ############################################################################
 # Prevent in-source builds, as they often cause severe build problems

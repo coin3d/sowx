@@ -68,4 +68,5 @@ X11 does not provide checkbuttons. This impact on ExaminerViewer.
 
 On Windows there is a memory leak when process exits.
 Cursor are not fully working yet.
+Test compilation requires static lib, turn off SOWX_BUILD_SHARED_LIBS
 
