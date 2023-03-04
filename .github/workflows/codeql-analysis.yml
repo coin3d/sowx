@@ -38,13 +38,14 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         # Override language selection by uncommenting this and choosing your languages
-        # with:
+        with:
+          cpp
         #   languages: go, javascript, csharp, python, cpp, java, ruby
 
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below).
-      #- name: Autobuild
-      #  uses: github/codeql-action/autobuild@v2
+      # -  name: Autobuild
+      #   uses: github/codeql-action/autobuild@v2
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -52,10 +53,21 @@ jobs:
       # ✏️ If the Autobuild fails above, remove it and uncomment the following
       #    three lines and modify them (or add more) to build your code if your
       #    project uses a compiled language
-
-      #- run: |
-      #     make bootstrap
-      #     make release
+      -  name: Build
+         run: |
+          sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+          sudo apt-add-repository 'deb https://repos.codelite.org/wx3.2.0/ubuntu/ jammy universe'
+          sudo apt-get -y update
+          sudo apt-get -y install freeglut3-dev wx3.2-headers* libwxgtk3.2* libboost-dev
+          mkdir cmake_download_dir
+          DOWNLOAD_FILE_COIN=coin-latest-Ubuntu2004-gcc9-x64.tar.gz
+          RELEASE_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases | jq -r --arg COIN_REPO_TAG_NAME "CI-builds" '.[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id'`
+          ASSET_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_COIN "$DOWNLOAD_FILE_COIN" '.assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id'`
+          export DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/$ASSET_ID
+          echo download file $DOWNLOAD_FILE_COIN from address $DOWNLOAD_ADDRESS_COIN
+          curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_COIN $DOWNLOAD_ADDRESS_COIN
+          tar xzf $DOWNLOAD_FILE_COIN -C cmake_download_dir
+          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSOWX_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
