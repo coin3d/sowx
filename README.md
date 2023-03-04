@@ -1,9 +1,10 @@
 # SoWx
 Coin GUI binding for wxWidgets
 
-## Platform supported
-
 [![Continuous Integration Build](https://github.com/coin3d/sowx/actions/workflows/continuous-integration-workflow.yml/badge.svg)](https://github.com/coin3d/sowx/actions/workflows/continuous-integration-workflow.yml)
+[![Code Scanning - Action](https://github.com/coin3d/sowx/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/coin3d/sowx/actions/workflows/codeql-analysis.yml)
+
+## Platform supported
 
 Thanks to the powerful porting support provided by wxWidgets SoWx compile and run on:
 
