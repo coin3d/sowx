@@ -32,8 +32,6 @@
 
 #include <Inventor/Wx/SoWx.h>
 #include <Inventor/Wx/SoWxGraphEditor.h>
-// #include <Inventor/Wx/SoWxExaminerViewer.h>
-
 #include "computils.h"
 
 // *************************************************************************
@@ -43,15 +41,11 @@ main(
   int argc,
   char ** argv )
 {
-  wxWidget * window = SoWx::init( argv[0] );
+  wxWindow * window = SoWx::init( argv[0] );
 
   SoNode * root = get_scene_graph( argc, argv );
   if ( ! root )
     return -1;
-
-//  SoWxExaminerViewer * examinerviewer = new SoWxExaminerViewer( window );
-//  examinerviewer->setSceneGraph( root );
-//  examinerviewer->show();
 
   SoWxGraphEditor * grapheditor = new SoWxGraphEditor;
   grapheditor->setSceneGraph( root );
@@ -60,7 +54,6 @@ main(
 //  SoWx::show( window );
   SoWx::mainLoop();
 
-//  delete examinerviewer;
   delete grapheditor;
 
   return 0;

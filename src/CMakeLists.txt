@@ -26,6 +26,7 @@ set(HDRS
   Inventor/${Gui}/So${Gui}SliderSet.h               # added
   Inventor/${Gui}/So${Gui}TransformSliderSet.h      # added
   Inventor/${Gui}/So${Gui}DirectionalLightEditor.h  # added
+  Inventor/${Gui}/So${Gui}GraphEditor.h             # added
   Inventor/${Gui}/devices/6DOFEvents.h
   Inventor/${Gui}/devices/So${Gui}DeviceP.h
   Inventor/${Gui}/devices/So${Gui}SpacenavDevice.h
@@ -57,6 +58,7 @@ set(SRCS
   Inventor/${Gui}/So${Gui}TransformSliderSet.cpp #added
   #Inventor/${Gui}/devices/6DOFEvents.cpp             # missing
   Inventor/${Gui}/So${Gui}DirectionalLightEditor.cpp
+  Inventor/${Gui}/So${Gui}GraphEditor.cpp             # added
   Inventor/${Gui}/devices/So${Gui}Device.cpp
   Inventor/${Gui}/devices/So${Gui}InputFocus.cpp
   Inventor/${Gui}/devices/So${Gui}Keyboard.cpp

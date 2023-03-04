@@ -29,7 +29,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
-#if 0
 
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -47,6 +46,9 @@
 #include <sowxdefs.h>
 
 #include <Inventor/Wx/SoWxGraphEditor.h>
+
+#include <wx/treectrl.h>
+
 
 // *************************************************************************
 
@@ -95,13 +97,13 @@ SOWX_OBJECT_SOURCE(SoWxGraphEditor);
 */
 
 SoWxGraphEditor::SoWxGraphEditor(
-  wxWindow * const parent,
-  const char * const name,
-  const SbBool embed,
-  const int parts)
-: inherited(parent, name, embed)
+        wxWindow * const parent,
+        const char * const name,
+        const SbBool embed,
+        const int parts)
+        : inherited(parent, name, embed)
 {
-  this->constructor(TRUE, parts);
+    this->constructor(TRUE, parts);
 } // SoWxGraphEditor()
 
 /*!
@@ -109,14 +111,14 @@ SoWxGraphEditor::SoWxGraphEditor(
 */
 
 SoWxGraphEditor::SoWxGraphEditor(
-  wxWindow * const parent,
-  const char * const name,
-  const SbBool embed,
-  const int parts,
-  const SbBool build)
-: inherited(parent, name, embed)
+        wxWindow * const parent,
+        const char * const name,
+        const SbBool embed,
+        const int parts,
+        const SbBool build)
+        : inherited(parent, name, embed)
 {
-  this->constructor(build, parts);
+    this->constructor(build, parts);
 } // SoWxGraphEditor()
 
 /*!
@@ -125,30 +127,31 @@ SoWxGraphEditor::SoWxGraphEditor(
 
 void
 SoWxGraphEditor::constructor(
-  const SbBool build,
-  const int parts)
+        const SbBool build,
+        const int parts)
 {
-  this->scenegraph = (SoNode *) NULL;
+    this->scenegraph = (SoNode *) NULL;
 
-  this->buildflags = parts & EVERYTHING;
+    this->buildflags = parts & EVERYTHING;
 
-  this->editorbase = (wxWindow *) NULL;
-  this->menubar = (wxWindow *) NULL;
-  this->grapheditor = (wxWindow *) NULL;
-  this->graphroot = (wxWindow *) NULL;
-  this->statusbar = (wxWindow *) NULL;
-  this->statusmessage = (wxWindow *) NULL;
+    this->editorbase = (wxWindow *) NULL;
+    this->menubar = (wxWindow *) NULL;
+    this->grapheditor = (wxWindow *) NULL;
+    this->graphroot = (wxWindow *) NULL;
+    this->statusbar = (wxWindow *) NULL;
+    this->statusmessage = (wxWindow *) NULL;
 
-  this->horizontal = (WxAdjustment *) NULL;
-  this->vertical = (WxAdjustment *) NULL;
+    /*
+    this->horizontal = (WxAdjustment *) NULL;
+    this->vertical = (WxAdjustment *) NULL;
+      */
+    this->setClassName("SoWxGraphEditor");
 
-  this->setClassName("SoWxGraphEditor");
-
-  if (! build) return;
-  this->setSize(SbVec2s(350, 450));
-  wxWindow * parent = this->getParentWidget();
-  wxWindow * editor = this->buildWidget(parent);
-  this->setBaseWidget(editor);
+    if (! build) return;
+    this->setSize(SbVec2s(350, 450));
+    wxWindow * parent = this->getParentWidget();
+    wxWindow * editor = this->buildWidget(parent);
+    this->setBaseWidget(editor);
 } // constructor()
 
 /*!
@@ -156,7 +159,7 @@ SoWxGraphEditor::constructor(
 */
 
 SoWxGraphEditor::~SoWxGraphEditor(
-  void)
+        void)
 {
 } // ~SoWxGraphEditor()
 
@@ -168,17 +171,17 @@ SoWxGraphEditor::~SoWxGraphEditor(
 
 void
 SoWxGraphEditor::setSceneGraph(// virtual
-  SoNode * root)
+        SoNode * root)
 {
-  if (this->scenegraph) {
-    this->clearSceneGraphTree();
-    this->scenegraph->unref();
-  }
-  this->scenegraph = root;
-  if (this->scenegraph) {
-    this->scenegraph->ref();
-    this->buildSceneGraphTree();
-  }
+    if (this->scenegraph) {
+        this->clearSceneGraphTree();
+        this->scenegraph->unref();
+    }
+    this->scenegraph = root;
+    if (this->scenegraph) {
+        this->scenegraph->ref();
+        this->buildSceneGraphTree();
+    }
 } // setSceneGraph()
 
 /*!
@@ -187,69 +190,81 @@ SoWxGraphEditor::setSceneGraph(// virtual
 
 SoNode *
 SoWxGraphEditor::getSceneGraph(
-  void) const
+        void) const
 {
-  return this->scenegraph;
+    return this->scenegraph;
 } // getSceneGraph;
 
 /*
   FIXME: write doc
 */
 
-wxWindow *
-SoWxGraphEditor::buildSubGraph(
-  wxWindow * parent,
-  SoNode * node)
-{
-  assert(node != NULL);
-  const char * classname = node->getTypeId().getName().getString();
-  SbName nodename = node->getName();
-  wxWindow * root;
-  if (! nodename) {
-    root = WX_WIDGET(ww_tree_item_new_with_label((gchar*)classname));
-  } else {
-    const char * name = nodename.getString();
-    char buf[128];
-    sprintf(buf, "%s \"%s\"", classname, name);
-    root = WX_WIDGET(ww_tree_item_new_with_label(buf));
-  }
-  ww_object_set_data(WX_OBJECT(root), "SoNode", (gpointer) node);
-  ww_widget_show(root);
-  ww_tree_append(WX_TREE(parent), root);
-  ww_signal_connect(WX_OBJECT(root), "select",
-    WX_SIGNAL_FUNC(SoWxGraphEditor::selectionCB), (gpointer) this);
+struct wxSoData : public  wxTreeItemData {
+    enum Type {
+        NODE,
+        FIELD,
+        UNKNOWN
+    };
+    Type type;
+    SoNode* node;
+    SoField* field;
+    wxSoData(SoNode* aNode,
+             SoField* aField,
+             Type aType)
+    :node(aNode)
+    ,field(aField)
+    ,type(aType){
 
-  wxWindow * substuff = WX_WIDGET(ww_tree_new());
-  ww_tree_item_set_subtree(WX_TREE_ITEM(root), substuff);
-
-  SoFieldList fields;
-  if (node->getFields(fields) > 0) {
-    wxWindow * fieldsitem = WX_WIDGET(ww_tree_item_new_with_label("[fields]"));
-    ww_widget_show(fieldsitem);
-    ww_tree_append(WX_TREE(substuff), fieldsitem);
-    wxWindow * fieldstree = WX_WIDGET(ww_tree_new());
-    ww_tree_item_set_subtree(WX_TREE_ITEM(fieldsitem), fieldstree);
-    for (int i = 0; i < fields.getLength(); i++) {
-      SoField * field = fields[i];
-      SbName fieldname;
-      node->getFieldName(field, fieldname);
-      const char * fieldnamestr = fieldname.getString();
-      wxWindow * fieldwidget = WX_WIDGET(ww_tree_item_new_with_label((gchar*)fieldnamestr));
-      ww_object_set_data(WX_OBJECT(fieldwidget), "SoNode", (gpointer) node);
-      ww_object_set_data(WX_OBJECT(fieldwidget), "SoField", (gpointer) field);
-      ww_widget_show(fieldwidget);
-      ww_tree_append(WX_TREE(fieldstree), fieldwidget);
-      ww_signal_connect(WX_OBJECT(fieldwidget), "select",
-        WX_SIGNAL_FUNC(SoWxGraphEditor::selectionCB), (gpointer) this);
     }
-  }
+};
 
-  SoChildList * children = node->getChildren();
-  if (children != NULL && children->getLength() > 0) {
-    for (int i = 0; i < children->getLength(); i++)
-      wxWindow * kid = SoWxGraphEditor::buildSubGraph(substuff, (SoNode *) children->get(i));
-  }
-  return root;
+
+wxTreeItemId
+SoWxGraphEditor::buildSubGraph(
+        wxTreeItemId parent,
+        SoNode * node)
+{
+    assert(node != NULL);
+    const char * classname = node->getTypeId().getName().getString();
+    SbName nodename = node->getName();
+    wxTreeItemId subtree;
+
+    if (! nodename) {
+        nodename = classname;
+    } else {
+        const char * name = nodename.getString();
+        char buf[128];
+        sprintf(buf, "%s \"%s\"", classname, name);
+        nodename = buf;
+    }
+
+    if(!parent)
+        subtree = treeCtrl->AppendItem(parent, classname);
+    else
+        subtree = treeCtrl->AppendItem(parent, classname);
+
+    treeCtrl->SetItemData(subtree, new wxSoData(node, 0, wxSoData::NODE));
+    treeCtrl->Bind(wxEVT_TREE_ITEM_ACTIVATED,  &SoWxGraphEditor::selectionCB, this);
+
+    SoFieldList fields;
+    if (node->getFields(fields) > 0) {
+        wxTreeItemId  fieldstree = treeCtrl->AppendItem(subtree, "[fields]" );
+        for (int i = 0; i < fields.getLength(); i++) {
+            SoField * field = fields[i];
+            SbName fieldname;
+            node->getFieldName(field, fieldname);
+            const char * fieldnamestr = fieldname.getString();
+            wxTreeItemId  fieldnode = treeCtrl->AppendItem(fieldstree, fieldnamestr );
+            treeCtrl->SetItemData(fieldnode, new wxSoData(node, field, wxSoData::FIELD));
+        }
+    }
+
+    SoChildList * children = node->getChildren();
+    if (children != NULL && children->getLength() > 0) {
+        for (int i = 0; i < children->getLength(); i++)
+            SoWxGraphEditor::buildSubGraph(subtree, (SoNode *) children->get(i));
+    }
+    return (subtree);
 }
 
 /*!
@@ -258,10 +273,11 @@ SoWxGraphEditor::buildSubGraph(
 
 void
 SoWxGraphEditor::buildSceneGraphTree(// virtual, protected
-  void)
+        void)
 {
-  wxWindow * graph = this->buildSubGraph(this->graphroot, this->scenegraph);
-  ww_tree_item_expand(WX_TREE_ITEM(graph));
+    wxTreeItemId graph = this->buildSubGraph(0, this->scenegraph);
+    treeCtrl->ExpandAll();
+    // TODO: ww_tree_item_expand(WX_TREE_ITEM(graph));
 } // buildSceneGraphTree()
 
 /*!
@@ -270,10 +286,10 @@ SoWxGraphEditor::buildSceneGraphTree(// virtual, protected
 
 void
 SoWxGraphEditor::clearSceneGraphTree(// virtual, protected
-  void)
+        void)
 {
-  SoDebugError::postInfo("SoWxGraphEditor::clearSceneGraphTree", 
-    _("[not implemented]"));
+    SoDebugError::postInfo("SoWxGraphEditor::clearSceneGraphTree",
+                           _("[not implemented]"));
 } // clearSceneGraphTree()
 
 /*!
@@ -282,22 +298,22 @@ SoWxGraphEditor::clearSceneGraphTree(// virtual, protected
 
 void
 SoWxGraphEditor::saveSceneGraph(// virtual, protected
-  void)
+        void)
 {
-  if (! this->scenegraph) {
-    this->setStatusMessage(_("No scene to save."));
-    return;
-  }
-  SoOutput * output = new SoOutput;
-  if (! output->openFile("scene.iv")) {
-    this->setStatusMessage(_("Error opening 'scene.iv' for writing."));
+    if (! this->scenegraph) {
+        this->setStatusMessage(_("No scene to save."));
+        return;
+    }
+    SoOutput * output = new SoOutput;
+    if (! output->openFile("scene.iv")) {
+        this->setStatusMessage(_("Error opening 'scene.iv' for writing."));
+        delete output;
+        return;
+    }
+    SoWriteAction writer(output);
+    writer.apply(this->scenegraph);
     delete output;
-    return;
-  }
-  SoWriteAction writer(output);
-  writer.apply(this->scenegraph);
-  delete output;
-  this->setStatusMessage(_("Scene saved in 'scene.iv'."));
+    this->setStatusMessage(_("Scene saved in 'scene.iv'."));
 } // saveSceneGraph()
 
 // *************************************************************************
@@ -308,8 +324,11 @@ SoWxGraphEditor::saveSceneGraph(// virtual, protected
 
 wxWindow *
 SoWxGraphEditor::buildWidget(// virtual, protected
-  wxWindow * parent)
+        wxWindow * parent)
 {
+    treeCtrl = new wxTreeCtrl(parent);
+
+    /* TODO:
   this->editorbase = WX_WIDGET(ww_vbox_new(FALSE, 0));
   if (this->buildflags & MENUBAR) {
     this->menubar = this->buildMenuBarWidget(this->editorbase);
@@ -328,7 +347,10 @@ SoWxGraphEditor::buildWidget(// virtual, protected
     ww_widget_show(this->statusbar);
     ww_box_pack_end(WX_BOX(this->editorbase), WX_WIDGET(this->statusbar), FALSE, TRUE, 0);
   }
+
   return this->editorbase;
+     */
+    return (treeCtrl);
 } // buildWidget()
 
 /*!
@@ -337,8 +359,9 @@ SoWxGraphEditor::buildWidget(// virtual, protected
 
 wxWindow *
 SoWxGraphEditor::buildMenuBarWidget(// virtual, protected
-  wxWindow * parent)
+        wxWindow * parent)
 {
+    /* TODO
   wxWindow * menubar = WX_WIDGET(ww_menu_bar_new());
   wxWindow * filemenuitem = ww_menu_item_new_with_label(_("File"));
   ww_widget_show(filemenuitem);
@@ -349,14 +372,16 @@ SoWxGraphEditor::buildMenuBarWidget(// virtual, protected
   ww_widget_show(saveitem);
   ww_menu_append(WX_MENU(filemenu), WX_WIDGET(saveitem));
   ww_signal_connect(WX_OBJECT(saveitem), "activate",
-    WX_SIGNAL_FUNC(SoWxGraphEditor::saveCB), (gpointer) this);
+    WX_SIGNAL_FUNC(SoWxGraphEditor::saveCB), (void*) this);
   wxWindow * closeitem = ww_menu_item_new_with_label(_("Close"));
   ww_widget_show(closeitem);
   ww_menu_append(WX_MENU(filemenu), WX_WIDGET(closeitem));
   ww_signal_connect(WX_OBJECT(closeitem), "activate",
-    WX_SIGNAL_FUNC(SoWxGraphEditor::closeCB), (gpointer) this);
+    WX_SIGNAL_FUNC(SoWxGraphEditor::closeCB), (void*) this);
   ww_menu_item_set_submenu(WX_MENU_ITEM(filemenuitem), WX_WIDGET(filemenu));
   return menubar;
+     */
+    return 0;
 } // buildMenuBarWidget()
 
 /*!
@@ -365,8 +390,10 @@ SoWxGraphEditor::buildMenuBarWidget(// virtual, protected
 
 wxWindow *
 SoWxGraphEditor::buildGraphEditorWidget(// virtual, protected
-  wxWindow * parent)
+        wxWindow * parent)
 {
+#if 0
+    // TODO
   /* value, lower, upper, step_increment, page_increment, page_size */
   this->vertical = WX_ADJUSTMENT(ww_adjustment_new(0, 0, 1000, 10, 100, 100));
   this->horizontal = WX_ADJUSTMENT(ww_adjustment_new(0, 0, 1000, 10, 100, 1000));
@@ -380,6 +407,8 @@ SoWxGraphEditor::buildGraphEditorWidget(// virtual, protected
   ww_scrolled_window_add_with_viewport(WX_SCROLLED_WINDOW(editor), this->graphroot);
 
   return editor;
+#endif
+    return 0;
 } // buildGraphEditorWidget()
 
 /*!
@@ -388,8 +417,10 @@ SoWxGraphEditor::buildGraphEditorWidget(// virtual, protected
 
 wxWindow *
 SoWxGraphEditor::buildStatusBarWidget(// virtual, protected
-  wxWindow * parent)
+        wxWindow * parent)
 {
+#if 0
+    // TODO
   wxWindow * statusframe = WX_WIDGET(ww_frame_new((gchar *) NULL));
   ww_widget_set_usize(statusframe, 0, 30);
   ww_frame_set_shadow_type(WX_FRAME(statusframe), WX_SHADOW_ETCHED_IN);
@@ -406,6 +437,8 @@ SoWxGraphEditor::buildStatusBarWidget(// virtual, protected
   ww_box_pack_start(WX_BOX(statuswidgets), this->statusmessage, FALSE, TRUE, 3);
 
   return statusframe;
+#endif
+    return (0);
 } // buildStatusBarWidget()
 
 // *************************************************************************
@@ -415,11 +448,9 @@ SoWxGraphEditor::buildStatusBarWidget(// virtual, protected
 */
 
 void
-SoWxGraphEditor::nodeSelection(// virtual, protected
-  wxWindow * treeitem,
-  SoNode * node)
+SoWxGraphEditor::nodeSelection(SoNode * node)
 {
-  this->setStatusMessage(node->getTypeId().getName().getString());
+    this->setStatusMessage(node->getTypeId().getName().getString());
 } // nodeSelection()
 
 /*!
@@ -427,12 +458,11 @@ SoWxGraphEditor::nodeSelection(// virtual, protected
 */
 
 void
-SoWxGraphEditor::fieldSelection(// virtual, protected
-  wxWindow * treeitem,
-  SoNode * node,
-  SoField * field)
+SoWxGraphEditor::fieldSelection(
+        SoNode * node,
+        SoField * field)
 {
-  this->setStatusMessage(field->getTypeId().getName().getString());
+    this->setStatusMessage(field->getTypeId().getName().getString());
 } // fieldSelection()
 
 // *************************************************************************
@@ -441,7 +471,7 @@ SoWxGraphEditor::fieldSelection(// virtual, protected
 void
 SoWxGraphEditor::sizeChanged(const SbVec2s & size)
 {
-  // inherited::sizeChanged(size);
+    // inherited::sizeChanged(size);
 } // sizeChanged()
 
 // *************************************************************************
@@ -452,12 +482,12 @@ SoWxGraphEditor::sizeChanged(const SbVec2s & size)
 
 void
 SoWxGraphEditor::saveCB(// static, private
-  WxObject * obj,
-  gpointer closure)
+        wxWindow * obj,
+        void* closure)
 {
-  assert(closure != NULL);
-  SoWxGraphEditor * editor = (SoWxGraphEditor *) closure;
-  editor->saveSceneGraph();
+    assert(closure != NULL);
+    SoWxGraphEditor * editor = (SoWxGraphEditor *) closure;
+    editor->saveSceneGraph();
 } // saveCB()
 
 /*!
@@ -466,12 +496,12 @@ SoWxGraphEditor::saveCB(// static, private
 
 void
 SoWxGraphEditor::closeCB(// static, private
-  WxObject * obj,
-  gpointer closure)
+        wxWindow * obj,
+        void* closure)
 {
-  assert(closure != NULL);
-  SoWxGraphEditor * editor = (SoWxGraphEditor *) closure;
-  editor->hide();
+    assert(closure != NULL);
+    SoWxGraphEditor * editor = (SoWxGraphEditor *) closure;
+    editor->hide();
 } // closeCB()
 
 // *************************************************************************
@@ -482,9 +512,12 @@ SoWxGraphEditor::closeCB(// static, private
 
 void
 SoWxGraphEditor::setStatusMessage(// virtual, protected
-  const char * message)
+        const char * message)
 {
-  ww_label_set_text(WX_LABEL(this->statusmessage), message);
+#if SOWX_DEBUG
+    SoDebugError::postInfo("SoWxGraphEditor::selectionCB", message);
+#endif
+    // TODO: ww_label_set_text(WX_LABEL(this->statusmessage), message);
 } // setStatusMessage()
 
 // *************************************************************************
@@ -494,20 +527,31 @@ SoWxGraphEditor::setStatusMessage(// virtual, protected
 */
 
 void
-SoWxGraphEditor::selectionCB(
-  WxObject * object,
-  gpointer closure)
+SoWxGraphEditor::selectionCB(wxTreeEvent& event)
 {
-  assert(closure != NULL);
-  SoWxGraphEditor * editor = (SoWxGraphEditor *) closure;
-  SoNode * node = (SoNode *) ww_object_get_data(WX_OBJECT(object), "SoNode");
-  SoField * field = (SoField *) ww_object_get_data(WX_OBJECT(object), "SoField");
-  if (node && ! field)
-    editor->nodeSelection(WX_WIDGET(object), node);
-  else if (node && field)
-    editor->fieldSelection(WX_WIDGET(object), node, field);
-  else
-    SoDebugError::postInfo("SoWxGraphEditor::selectionCB", "[invalid selection data]");
+    assert(treeCtrl != NULL);
+    wxSoData * soData = dynamic_cast<wxSoData*>(treeCtrl->GetItemData(event.GetItem()));
+    if(soData) {
+        switch (soData->type) {
+            case wxSoData::FIELD: {
+                SoDebugError::postInfo("SoWxGraphEditor::selectionCB", "node and field");
+                assert(soData->field);
+                fieldSelection(soData->node, soData->field);
+            }
+                break;
+            case wxSoData::NODE: {
+                SoDebugError::postInfo("SoWxGraphEditor::selectionCB", "node");
+                nodeSelection(soData->node);
+
+            }
+                break;
+            default:
+                SoDebugError::postInfo("SoWxGraphEditor::selectionCB", "[unknown data]");
+                break;
+        }
+    } else {
+        SoDebugError::postInfo("SoWxGraphEditor::selectionCB", "[invalid selection data]");
+    }
 } // selectionCB()
 
 // *************************************************************************
@@ -518,10 +562,10 @@ SoWxGraphEditor::selectionCB(
 
 const char *
 SoWxGraphEditor::getDefaultWidgetName(// virtual, protected
-  void) const
+        void) const
 {
-  static const char defaultWidgetName[] = "SoWxGraphEditor";
-  return defaultWidgetName;
+    static const char defaultWidgetName[] = "SoWxGraphEditor";
+    return defaultWidgetName;
 } // getDefaultWidgetName()
 
 /*!
@@ -530,10 +574,10 @@ SoWxGraphEditor::getDefaultWidgetName(// virtual, protected
 
 const char *
 SoWxGraphEditor::getDefaultTitle(// virtual, protected
-  void) const
+        void) const
 {
-  static const char defaultTitle[] = N_("Graph Editor");
-  return _(defaultTitle);
+    static const char defaultTitle[] = N_("Graph Editor");
+    return _(defaultTitle);
 } // getDefaultTitle()
 
 /*!
@@ -542,11 +586,10 @@ SoWxGraphEditor::getDefaultTitle(// virtual, protected
 
 const char *
 SoWxGraphEditor::getDefaultIconTitle(// virtual, protected
-  void) const
+        void) const
 {
-  static const char defaultIconTitle[] = N_("Graph Editor");
-  return _(defaultIconTitle);
+    static const char defaultIconTitle[] = N_("Graph Editor");
+    return _(defaultIconTitle);
 } // getDefaultIconTitle()
 
 // *************************************************************************
-#endif

@@ -30,9 +30,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include <stdlib.h>
-#include <math.h>
-
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInput.h>
 #include <Inventor/nodes/SoBaseColor.h>
@@ -42,6 +39,10 @@
 #include <Inventor/nodes/SoSphere.h>
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoText3.h>
+
+#include <cstdlib>
+#include <cmath>
+#include <ctime>
 
 // *************************************************************************
 

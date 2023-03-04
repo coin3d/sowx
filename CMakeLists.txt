@@ -152,7 +152,7 @@ else()
 endif()
 
 find_package(OpenGL REQUIRED)
-find_package(wxWidgets REQUIRED gl core base)
+find_package(wxWidgets REQUIRED gl core base propgrid)
 
 # On Mac OS X, GLX is provided as a separate OpenGL implementation, different
 # from the standard OpenGL framework which provides support for GLUT and native

@@ -30,11 +30,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#if 0
+
 #ifndef SOWX_GRAPHEDITOR_H
 #define SOWX_GRAPHEDITOR_H
 
 #include <Inventor/Wx/SoWxComponent.h>
+#include <wx/treebase.h>
+#include <wx/treectrl.h>
+
 
 class SoNode;
 class SoField;
@@ -42,75 +45,77 @@ class SoField;
 // *************************************************************************
 
 class SOWX_DLL_API SoWxGraphEditor : public SoWxComponent {
-  SOWX_OBJECT_HEADER(SoWxGraphEditor, SoWxComponent);
+SOWX_OBJECT_HEADER(SoWxGraphEditor, SoWxComponent);
 
 public:
-  enum BuildFlag {
-    MENUBAR =       0x01,
-    GRAPHEDITOR =   0x02,
-    STATUSBAR =     0x04,
-    EVERYTHING =    0x07
-  };
+    enum BuildFlag {
+        MENUBAR =       0x01,
+        GRAPHEDITOR =   0x02,
+        STATUSBAR =     0x04,
+        EVERYTHING =    0x07
+    };
 
-  SoWxGraphEditor(wxWindow * const parent = (wxWindow *) NULL,
-                   const char * const name = (char *) NULL,
-                   const SbBool embed = TRUE,
-                   const int parts = EVERYTHING);
-  ~SoWxGraphEditor(void);
+    SoWxGraphEditor(wxWindow * const parent = (wxWindow *) NULL,
+                    const char * const name = (char *) NULL,
+                    const SbBool embed = TRUE,
+                    const int parts = EVERYTHING);
+    ~SoWxGraphEditor(void);
 
-  virtual void setSceneGraph(SoNode * root);
-  SoNode * getSceneGraph(void) const;
+    virtual void setSceneGraph(SoNode * root);
+    SoNode * getSceneGraph(void) const;
 
 protected:
-  SoWxGraphEditor(wxWindow * const parent, const char * const name,
-                   const SbBool embed, const int parts, const SbBool build);
+    SoWxGraphEditor(wxWindow * const parent, const char * const name,
+                    const SbBool embed, const int parts, const SbBool build);
 
-  wxWindow * buildWidget(wxWindow * parent);
-  virtual wxWindow * buildMenuBarWidget(wxWindow * parent);
-  virtual wxWindow * buildGraphEditorWidget(wxWindow * parent);
-  virtual wxWindow * buildStatusBarWidget(wxWindow * parent);
+    wxWindow * buildWidget(wxWindow * parent);
+    virtual wxWindow * buildMenuBarWidget(wxWindow * parent);
+    virtual wxWindow * buildGraphEditorWidget(wxWindow * parent);
+    virtual wxWindow * buildStatusBarWidget(wxWindow * parent);
 
-  virtual void sizeChanged(const SbVec2s & size);
+    virtual void sizeChanged(const SbVec2s & size);
 
-  virtual void buildSceneGraphTree(void);
-  virtual void clearSceneGraphTree(void);
+    virtual void buildSceneGraphTree(void);
+    virtual void clearSceneGraphTree(void);
 
-  virtual void saveSceneGraph(void);
+    virtual void saveSceneGraph(void);
 
-  virtual void setStatusMessage(const char * message);
+    virtual void setStatusMessage(const char * message);
 
-  virtual void nodeSelection(wxWindow * item, SoNode * node);
-  virtual void fieldSelection(wxWindow * item, SoNode * node, SoField * field);
+    virtual void nodeSelection(SoNode * node);
+    virtual void fieldSelection(SoNode * node, SoField * field);
 
-  virtual const char * getDefaultWidgetName(void) const;
-  virtual const char * getDefaultTitle(void) const;
-  virtual const char * getDefaultIconTitle(void) const;
+    virtual const char * getDefaultWidgetName(void) const;
+    virtual const char * getDefaultTitle(void) const;
+    virtual const char * getDefaultIconTitle(void) const;
 
 private:
-  void constructor(const SbBool build, const int parts);
+    void constructor(const SbBool build, const int parts);
 
-  static void saveCB(wxWindow * obj, void* closure);
-  static void closeCB(wxWindow * obj, void* closure);
-  static void selectionCB(wxWindow * obj, void* closure);
+    void saveCB(wxWindow * obj, void* closure);
+    void closeCB(wxWindow * obj, void* closure);
+    void selectionCB(wxTreeEvent& event);
 
-  wxWindow * buildSubGraph(wxWindow * parent, SoNode * node);
+    wxTreeItemId buildSubGraph(wxTreeItemId parent, SoNode * node);
 
-  SoNode * scenegraph;
+    SoNode * scenegraph;
 
-  int buildflags;
-  wxWindow * editorbase;
-  wxWindow * menubar;
-  wxWindow * grapheditor;
-  wxWindow * graphroot;
-  wxWindow * statusbar;
-  wxWindow * statusmessage;
+    int buildflags;
+    wxWindow * editorbase;
+    wxWindow * menubar;
+    wxWindow * grapheditor;
+    wxTreeItemId graphroot;
+    wxTreeCtrl* treeCtrl;
+    wxWindow * statusbar;
+    wxWindow * statusmessage;
 
-  WxAdjustment * vertical;
-  WxAdjustment * horizontal;
+    /*
+    WxAdjustment * vertical;
+    WxAdjustment * horizontal;
+  */
 
 }; // class SoWxGraphEditor
 
 // *************************************************************************
 
 #endif // ! SOWX_H
-#endif

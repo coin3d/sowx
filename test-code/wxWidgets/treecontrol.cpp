@@ -30,40 +30,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#include "Inventor/Wx/devices/SoWxInputFocus.h"
-#include "Inventor/Wx/devices/SoGuiInputFocusP.h"
-#include "sowxdefs.h"
+#include <wx/wx.h>
+#include <wx/glcanvas.h>
+#include <wx/treectrl.h>
 
-#define PRIVATE(p) (p->pimpl)
-#define PUBLIC(p) (p->pub)
 
-// *************************************************************************
-
-class SoWxInputFocusP : public SoGuiInputFocusP {
+// Define a new application type
+class MyApp : public wxApp
+{
 public:
-    SoWxInputFocusP(SoWxInputFocus * p) : SoGuiInputFocusP(p) { }
+    virtual bool OnInit() wxOVERRIDE {
+        if ( !wxApp::OnInit() )
+            return false;
+        wxFrame* w = new wxFrame(0, wxID_ANY, "Hello");
+
+        wxTreeCtrl* treeCtrl = new wxTreeCtrl(w, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE );
+        wxTreeItemId root = treeCtrl->AddRoot("Root");
+        wxTreeItemId child = treeCtrl->AppendItem(root, "Child");
+        treeCtrl->AppendItem(child, "M1");
+        treeCtrl->AppendItem(child, "M2");
+
+        w->Show();
+        return true;
+    }
 };
 
-SoWxInputFocus::SoWxInputFocus(int mask) {
-    PRIVATE(this) = new SoWxInputFocusP(this);
-}
 
-SoWxInputFocus::~SoWxInputFocus() {
-    delete PRIVATE(this);
-}
 
-void 
-SoWxInputFocus::enable(wxWindow* widget, SoWxEventHandler * handler, void * closure) {
-    SOWX_STUB();
-}
-
-void 
-SoWxInputFocus::disable(wxWindow* widget, SoWxEventHandler * handler, void * closure){
-    SOWX_STUB();
-}
-
-const SoEvent * 
-SoWxInputFocus::translateEvent(wxEvent& event) {
-    SOWX_STUB();
-    return (0);
-}
+wxIMPLEMENT_APP(MyApp);

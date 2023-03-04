@@ -13,3 +13,5 @@ executable(tripleview SOURCES tripleview.cpp LIBS SoWx OPTIONAL WINDOWS)
 executable(withoutdecor0 SOURCES withoutdecor0.cpp LIBS SoWx)
 
 executable(withoutdecor1 SOURCES withoutdecor1.cpp LIBS SoWx)
+
+executable(graphed SOURCES computils.cpp graphed.cpp LIBS SoWx)
