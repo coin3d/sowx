@@ -514,6 +514,7 @@ initString(char* &destination,
     if (data) {
         int length = strlen(data) + 1;
         destination = strncpy(new char[length], data, length);
+        destination[length]='\0';
     }
 }
 

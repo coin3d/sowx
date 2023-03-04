@@ -320,8 +320,11 @@ SoWxGLWidgetP::getNormalContext(void) {
 // Returns the overlay GL context.
 const wxGLContext *
 SoWxGLWidgetP::getOverlayContext(void) {
+    SOWX_STUB();
+    /*
     SoWxGLArea * w = this->currentglarea;
     // TODO: if (w) { return QGLWidget_overlayContext(w); }
+     */
     return NULL;
 }
 

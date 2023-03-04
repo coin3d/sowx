@@ -47,10 +47,10 @@
 
 class SoWxMouseP : public SoGuiMouseP {
 public:
-    SoWxMouseP(SoWxMouse * p) : SoGuiMouseP(p) { }
+    explicit SoWxMouseP(SoWxMouse * p)
+    : SoGuiMouseP(p) {
 
-    //SoLocation2Event * makeLocationEvent(XMotionEvent * event);
-    //SoMouseButtonEvent * makeButtonEvent(XButtonEvent * event, SoButtonEvent::State state);
+    }
 };
 
 SoWxMouse::SoWxMouse(int mask ) {

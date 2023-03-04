@@ -95,11 +95,6 @@ SoWx::init(int & argc,
 
 void
 SoWx::init(wxWindow* toplevelwidget) {
-#ifdef COIN_IV_EXTENSIONS
-#define COIN_IV_EXTENSION(ext) ext::initClass();
-    COIN_IV_EXTENSIONS
-#undef COIN_IV_EXTENSION
-#endif
 
     if (SOWX_DEBUG && SoWxP::instance()->isInitialized()) {
         SoDebugError::postWarning("SoWx::init",

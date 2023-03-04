@@ -40,9 +40,9 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         # Override language selection by uncommenting this and choosing your languages
-        # with:
-        #  cpp
-        #   languages: go, javascript, csharp, python, cpp, java, ruby
+        with:
+        #  go, javascript, csharp, python, cpp, java, ruby
+          languages: cpp
 
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below).
@@ -69,7 +69,7 @@ jobs:
           echo download file $DOWNLOAD_FILE_COIN from address $DOWNLOAD_ADDRESS_COIN
           curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_COIN $DOWNLOAD_ADDRESS_COIN
           tar xzf $DOWNLOAD_FILE_COIN -C cmake_download_dir
-          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSOWX_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
+          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSOWX_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
