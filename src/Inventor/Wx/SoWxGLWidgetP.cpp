@@ -355,6 +355,9 @@ void SoWxGLWidgetP::initGLModes(int glmodes) {
     if(glmodes & SO_GL_STEREO) {
         gl_attributes.push_back(WX_GL_STEREO);
     }
+#ifdef USE_EGL
+    gl_attributes.push_back(WX_GL_ES2);
+#endif
     gl_attributes.push_back(0);
 
     /*

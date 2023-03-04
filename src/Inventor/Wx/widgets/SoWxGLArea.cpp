@@ -61,6 +61,12 @@ SoWxGLArea::SoWxGLArea(wxWindow *parent,
     this->SetName("SoWxGLArea");
 
     gl_real_context = new wxGLContext(this);
+#if SOWX_DEBUG
+    SoDebugError::postInfo("SoWxGLArea::SoWxGLArea",
+                           "wxGLContext:%p",
+                           gl_real_context);
+#endif
+
     is_gl_initialized = false;
     gl_format = attributes;
 }

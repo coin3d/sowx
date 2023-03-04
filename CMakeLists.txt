@@ -109,6 +109,7 @@ option(SO${GUI}_BUILD_TESTS "Build small test programs." OFF)
 option(SO${GUI}_BUILD_UNIT_TESTS "Build unit test." OFF)
 option(SO${GUI}_SANITIZE_ADDRESS "Add sanitize address options." OFF)
 option(SO${GUI}_USE_OIV "Use Open Inventor implementation." OFF)
+option(SO${GUI}_BUILD_EGL "Build for EGL on Linux when ON. Default is OFF." OFF)
 
 cmake_dependent_option(SO${GUI}_BUILD_INTERNAL_DOCUMENTATION "Document internal code not part of the API." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option(SO${GUI}_BUILD_DOC_MAN "Build So${Gui} man pages." OFF "SO${GUI}_BUILD_DOCUMENTATION" OFF)
@@ -154,6 +155,10 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(wxWidgets REQUIRED gl core base propgrid)
 
+
+if(SO${GUI}_BUILD_EGL)
+  add_definitions(-DUSE_EGL=1)
+endif()
 # On Mac OS X, GLX is provided as a separate OpenGL implementation, different
 # from the standard OpenGL framework which provides support for GLUT and native
 # Mac OS X applications.
