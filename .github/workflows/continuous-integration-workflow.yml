@@ -41,37 +41,41 @@ jobs:
           path: cmake_install_dir/
         if: always()
 
-#  windows-build:
-#    name: Windows Build
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Checkout submodules
-#        run: git submodule update --init --recursive
-#      - name: Create build directory and run CMake
-#        shell: cmd
-#        run: |
-#          mkdir cmake_download_dir
-#          set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
-#          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases ^| jq -r --arg COIN_REPO_TAG_NAME "CI-builds" ".[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id"') do set RELEASE_ID=%%i
-#          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/%RELEASE_ID% ^| jq -r --arg DOWNLOAD_FILE_COIN "%DOWNLOAD_FILE_COIN%" ".assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id"') do set ASSET_ID=%%i
-#          set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
-#          echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
-#          curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
-#          7z x %DOWNLOAD_FILE_COIN% -ocmake_download_dir
-#          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
-#      - name: Build project
-#        run: cmake --build cmake_build_dir --target INSTALL --config Release -- /nologo /verbosity:minimal /maxcpucount:2 /property:MultiProcessorCompilation=true
-#      #- name: Run tests
-#      #  run: ctest -C Release -VV
-#      #  working-directory: cmake_build_dir
-#      - name: Create Artifacts
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: Windows-Artifacts
-#          path: cmake_install_dir/
-#        if: always()
-#
+  windows-build:
+    name: Windows Build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+      - name: Create build directory and run CMake
+        shell: cmd
+        run: |
+          mkdir cmake_download_dir
+          set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases ^| jq -r --arg COIN_REPO_TAG_NAME "CI-builds" ".[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id"') do set RELEASE_ID=%%i
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/%RELEASE_ID% ^| jq -r --arg DOWNLOAD_FILE_COIN "%DOWNLOAD_FILE_COIN%" ".assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id"') do set ASSET_ID=%%i
+          set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
+          echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
+          curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
+          7z x %DOWNLOAD_FILE_COIN% -ocmake_download_dir
+          curl -s -S -L -H"Accept: application/octet-stream" -o wxdev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxMSW-3.2.2_vc14x_x64_Dev.7z
+          7z x wxdev.7z -ocmake_download_dir
+          curl -s -S -L -H"Accept: application/octet-stream" -o wxinclude.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1-headers.7z
+          7z x wxinclude.7z -ocmake_download_dir
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
+      - name: Build project
+        run: cmake --build cmake_build_dir --target INSTALL --config Release -- /nologo /verbosity:minimal /maxcpucount:2 /property:MultiProcessorCompilation=true
+      #- name: Run tests
+      #  run: ctest -C Release -VV
+      #  working-directory: cmake_build_dir
+      - name: Create Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Windows-Artifacts
+          path: cmake_install_dir/
+        if: always()
+
   macos-build:
     name: MacOS Build
     runs-on: macos-latest
