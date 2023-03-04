@@ -38,7 +38,8 @@
 #include "wx/file.h"
 #include "wx/dcclient.h"
 
-#include <GL/gl.h>
+#include "Inventor/Wx/common/gl.h"
+
 #include <map>
 
 wxBEGIN_EVENT_TABLE(SoWxGLArea, wxGLCanvas)
