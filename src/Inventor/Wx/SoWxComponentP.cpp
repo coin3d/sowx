@@ -133,7 +133,7 @@ SoWxComponentP::getNativeCursor(const SoWxCursor::CustomCursor *cc) {
     down_cursor = new wxCursor(reinterpret_cast<const char *>(cc->bitmap), cc->dim[0], cc->dim[1], -1, -1,
                                     reinterpret_cast<const char *>(cc->mask), wxWHITE, wxBLACK);
 #else
-#error "To be tested"
+#warning "To be tested"
 #endif
     SoWxComponentP::cursordict->enter((uintptr_t)cc, down_cursor);
     return (down_cursor);
