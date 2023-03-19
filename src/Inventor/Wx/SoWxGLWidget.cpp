@@ -186,6 +186,9 @@ SoWxGLWidget::isBorder(void) const{
 void
 SoWxGLWidget::setDoubleBuffer(const SbBool enable){
     SOWX_STUB();
+    if ((enable && this->isDoubleBuffer()) ||
+        (!enable && !this->isDoubleBuffer()))
+        return;
 }
 
 SbBool
@@ -272,8 +275,7 @@ SoWxGLWidget::getGLWidget(void) const{
 
 wxWindow*
 SoWxGLWidget::getNormalWidget(void) const{
-    SOWX_STUB();
-    return (0);
+    return (this->getGLWidget());
 }
 
 wxWindow*

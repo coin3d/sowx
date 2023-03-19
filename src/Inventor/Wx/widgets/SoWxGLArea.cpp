@@ -30,6 +30,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
+#ifdef SOWX_DEBUG
+#define private public
+#include "wx/glcanvas.h"
+#undef private
+#endif
+
 #include "Inventor/Wx/widgets/SoWxGLArea.h"
 #include "Inventor/Wx/SoWxGLWidgetP.h"
 #include "sowxdefs.h"
@@ -63,8 +69,9 @@ SoWxGLArea::SoWxGLArea(wxWindow *parent,
     gl_real_context = new wxGLContext(this);
 #if SOWX_DEBUG
     SoDebugError::postInfo("SoWxGLArea::SoWxGLArea",
-                           "wxGLContext:%p",
-                           gl_real_context);
+                           "wxGLContext: (%p,%p)",
+                           gl_real_context,
+                           gl_real_context->m_glContext);
 #endif
 
     is_gl_initialized = false;

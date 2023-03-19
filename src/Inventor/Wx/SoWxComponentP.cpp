@@ -62,7 +62,6 @@ delete_dict_value(SbDictKeyType /*key*/, void* value) {
 
 void
 SoWxComponentP::atexit_cleanup() {
-    SOWX_STUB();
     if (SoWxComponentP::cursordict) {
         SoWxComponentP::cursordict->applyToAll(delete_dict_value);
         delete SoWxComponentP::cursordict;
@@ -72,7 +71,6 @@ SoWxComponentP::atexit_cleanup() {
 
 void
 SoWxComponentP::fatalerrorHandler(void *userdata) {
-    SOWX_STUB();
     SoWxComponentP * that = (SoWxComponentP *)userdata;
     (void*)(that); // unused for the time being
 }

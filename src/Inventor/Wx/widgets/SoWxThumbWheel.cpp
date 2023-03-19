@@ -71,6 +71,10 @@ SoWxThumbWheel::SoWxThumbWheel(wxWindow * parent,
                                const char * name)
         : wxPanel(parent,
                   wxID_ANY) {
+    if(!name)
+        this->SetName("SoWxThumbWheel");
+    else
+        this->SetName(name);
     this->constructor(SoWxThumbWheel::Vertical);
 }
 

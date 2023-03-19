@@ -74,7 +74,6 @@ SoWxFullViewerP::showDecorationWidgets(SbBool onOff) {
     assert(this->viewerwidget);
 
     assert(PUBLIC(this)->leftDecoration && PUBLIC(this)->bottomDecoration && PUBLIC(this)->rightDecoration);
-    const int border_size = 0;
 
     wxGridBagSizer* sizer = new wxGridBagSizer( 0, 0 );
     sizer->SetFlexibleDirection( wxBOTH );
@@ -105,7 +104,6 @@ SoWxFullViewerP::showDecorationWidgets(SbBool onOff) {
 
     } else {
         sizer->Add(this->canvas, wxGBPosition( 0, 0 ), wxGBSpan( 1, 1 ), wxEXPAND | wxALL, 0 );
-        //sizer->Add(this->canvas,  0,  wxEXPAND | wxALL, border_size );
         sizer->AddGrowableCol( 0 );
         sizer->AddGrowableRow( 0 );
         PUBLIC(this)->leftDecoration->Hide();

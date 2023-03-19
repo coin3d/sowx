@@ -29,6 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
+
 #if 0
 #if HAVE_CONFIG_H
 #include <config.h>
@@ -41,7 +42,7 @@
 #include <Inventor/errors/SoDebugError.h>
 #include <Inventor/nodes/SoMaterial.h>
 
-#include <sogtkdefs.h>
+#include <sowxdefs.h>
 
 #include <Inventor/Wx/SoAnyMaterialList.h>
 #include <Inventor/Wx/SoWxMaterialList.h>
@@ -59,7 +60,7 @@ SOWX_OBJECT_SOURCE(SoWxMaterialList);
 // *************************************************************************
 
 SoWxMaterialList::SoWxMaterialList(
-  GtkWidget * parent,
+  wxWindow * parent,
   const char * const name,
   const SbBool embed,
   const char * const dir)
@@ -69,7 +70,7 @@ SoWxMaterialList::SoWxMaterialList(
 } // SoWxMaterialList()
 
 SoWxMaterialList::SoWxMaterialList(// protected
-  GtkWidget * parent,
+  wxWindow * parent,
   const char * const name,
   const SbBool embed,
   const char * const dir,
@@ -90,8 +91,8 @@ SoWxMaterialList::constructor(// private
   this->setClassName("SoWxMaterialList");
   this->setSize(SbVec2s(200, 300));
   if (! build) return;
-  GtkWidget * parent = this->getParentWidget();
-  GtkWidget * materiallist = this->buildWidget(parent);
+  wxWindow * parent = this->getParentWidget();
+  wxWindow * materiallist = this->buildWidget(parent);
   this->setBaseWidget(materiallist);
 } // constructor()
 
@@ -106,28 +107,28 @@ SoWxMaterialList::~SoWxMaterialList(
 /*!
 */
 
-GtkWidget *
+wxWindow *
 SoWxMaterialList::buildWidget(// protected
-  GtkWidget * parent)
+  wxWindow * parent)
 {
-  GtkWidget * listroot = GTK_WIDGET(gtk_vbox_new(FALSE, 0));
-  GtkWidget * menubar = GTK_WIDGET(gtk_menu_bar_new());
+  wxWindow * listroot = GTK_WIDGET(gtk_vbox_new(FALSE, 0));
+  wxWindow * menubar = GTK_WIDGET(gtk_menu_bar_new());
   gtk_widget_set_usize(menubar, 0, 30);
   gtk_widget_show(menubar);
   gtk_box_pack_start(GTK_BOX(listroot), GTK_WIDGET(menubar), 0, 0, 0);
-  GtkWidget * materials = 
+  wxWindow * materials = 
     gtk_menu_item_new_with_label(_("Materials"));
   gtk_widget_show(materials);
   gtk_menu_bar_append(GTK_MENU_BAR(menubar), materials);
 
-  GtkWidget * menu = this->buildPulldownMenu(materials);
+  wxWindow * menu = this->buildPulldownMenu(materials);
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(materials), menu);
 
   /* value, lower, upper, step_increment, page_increment, page_size */
   GtkAdjustment * vertical = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 1000, 10, 100, 100));
   GtkAdjustment * horizontal = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 1000, 10, 100, 1000));
 
-  GtkWidget * scrolled = gtk_scrolled_window_new(horizontal, vertical);
+  wxWindow * scrolled = gtk_scrolled_window_new(horizontal, vertical);
   gtk_scrolled_window_set_policy(
     GTK_SCROLLED_WINDOW(scrolled), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
   gtk_widget_show(scrolled);
@@ -138,9 +139,9 @@ SoWxMaterialList::buildWidget(// protected
     GTK_SIGNAL_FUNC(SoWxMaterialList::itemactivationCB), (gpointer) this);
   gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled), this->listwidget);
 
-  SoGtkMaterialDirectory * dir = common->getMaterialDirectory();
+  SoWxMaterialDirectory * dir = common->getMaterialDirectory();
   if (dir && dir->numGroups > 0) {
-    SoGtkMaterialGroup * group = dir->groups[dir->current];
+    SoWxMaterialGroup * group = dir->groups[dir->current];
     for (int i = 0; i < group->numMaterials; i++) {
       const char ** ptr = &(group->materials[i]->name);
       gtk_clist_append(GTK_CLIST(this->listwidget), (char **) ptr);
@@ -155,17 +156,17 @@ SoWxMaterialList::buildWidget(// protected
 /*!
 */
 
-GtkWidget *
+wxWindow *
 SoWxMaterialList::buildPulldownMenu(// protected
-  GtkWidget * parent)
+  wxWindow * parent)
 {
-  GtkWidget * menu = GTK_WIDGET(gtk_menu_new());
+  wxWindow * menu = GTK_WIDGET(gtk_menu_new());
   gtk_widget_show(menu);
 
-  SoGtkMaterialDirectory * data = common->getMaterialDirectory();
+  SoWxMaterialDirectory * data = common->getMaterialDirectory();
   if (data) {
     for (int i = 0; i < data->numGroups; i++) {
-      GtkWidget * menuitem = GTK_WIDGET(gtk_menu_item_new_with_label(data->groups[i]->name));
+      wxWindow * menuitem = GTK_WIDGET(gtk_menu_item_new_with_label(data->groups[i]->name));
       gtk_signal_connect(GTK_OBJECT(menuitem), "activate",
         GTK_SIGNAL_FUNC(SoWxMaterialList::menuactivationCB), (gpointer) this);
       gtk_widget_show(menuitem);
@@ -199,12 +200,12 @@ SoWxMaterialList::removeCallback(
 
 void
 SoWxMaterialList::menuactivation(// private
-  GtkWidget * menuitem)
+  wxWindow * menuitem)
 {
-  SoGtkMaterialDirectory * dir = common->getMaterialDirectory();
+  SoWxMaterialDirectory * dir = common->getMaterialDirectory();
   if (dir) {
     for (int i = 0; i < dir->numGroups; i++) {
-      SoGtkMaterialGroup * group = dir->groups[i];
+      SoWxMaterialGroup * group = dir->groups[i];
       if (group->menuitem == menuitem) {
         gtk_clist_clear(GTK_CLIST(this->listwidget));
         for (int j = 0; j < group->numMaterials; j++) {
@@ -222,7 +223,7 @@ SoWxMaterialList::menuactivation(// private
 
 void
 SoWxMaterialList::menuactivationCB(// static, private
-  GtkObject * obj,
+  WxObject * obj,
   gpointer closure)
 {
   assert(closure != NULL);
@@ -236,7 +237,7 @@ void
 SoWxMaterialList::itemactivation(// private
   int materialid)
 {
-  SoGtkMaterialDirectory * data = common->getMaterialDirectory();
+  SoWxMaterialDirectory * data = common->getMaterialDirectory();
   assert(data != NULL);
   assert(materialid >= 0 &&
           materialid < data->groups[data->current]->numMaterials);
@@ -279,7 +280,7 @@ SoWxMaterialList::itemactivation(// private
 
 void
 SoWxMaterialList::itemactivationCB(// static, private
-  GtkObject * obj,
+  WxObject * obj,
   gint row,
   gint column,
   GdkEvent * event,

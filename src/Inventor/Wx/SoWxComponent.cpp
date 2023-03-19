@@ -221,7 +221,6 @@ SoWxComponent::show(void) {
 
 void
 SoWxComponent::hide(void) {
-    SOWX_STUB();
     PRIVATE(this)->widget->Hide();
 }
 

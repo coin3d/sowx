@@ -2,7 +2,15 @@ configure_file(config.h.cmake.in config.h)
 
 # Processing files and headers common to all SoGui libraries
 # This is pulled from the subrepo SoGui.
-add_subdirectory(Inventor/${Gui}/common)
+set(COMMON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Inventor/${Gui}/common)
+add_subdirectory(${COMMON_DIR})
+
+if(HAVE_NEW_MATERIALS)
+  configure_file(${COMMON_DIR}/SoAnyMaterialList.cpp.in ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialList.cpp)
+  configure_file(${COMMON_DIR}/SoAnyMaterialList.h.in ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialList.h)
+  configure_file(${COMMON_DIR}/SoGuiMaterialList.h.in ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}MaterialList.h)
+  configure_file(${COMMON_DIR}/SoAnyMaterialListBuiltins.cpp.in ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialListBuiltins.cpp)
+endif()
 
 if(SO${GUI}_USE_OIV)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/thirdparty)
@@ -19,12 +27,12 @@ set(HDRS
   Inventor/${Gui}/So${Gui}GLWidgetP.h
   #Inventor/${Gui}/So${Gui}ImageReader.h            # missing
   Inventor/${Gui}/So${Gui}Internal.h
-  Inventor/${Gui}/So${Gui}LightSliderSet.h          # added
-  Inventor/${Gui}/So${Gui}MaterialSliderSet.h       # added
-  #Inventor/${Gui}/So${Gui}SignalThread.h           # missing
-  Inventor/${Gui}/So${Gui}SliderSetBase.h           # added
-  Inventor/${Gui}/So${Gui}SliderSet.h               # added
-  Inventor/${Gui}/So${Gui}TransformSliderSet.h      # added
+  # Inventor/${Gui}/So${Gui}LightSliderSet.h          # added
+  # Inventor/${Gui}/So${Gui}MaterialSliderSet.h       # added
+  # Inventor/${Gui}/So${Gui}SignalThread.h           # missing
+  # Inventor/${Gui}/So${Gui}SliderSetBase.h           # added
+  # Inventor/${Gui}/So${Gui}SliderSet.h               # added
+  # Inventor/${Gui}/So${Gui}TransformSliderSet.h      # added
   Inventor/${Gui}/So${Gui}DirectionalLightEditor.h  # added
   Inventor/${Gui}/So${Gui}GraphEditor.h             # added
   Inventor/${Gui}/devices/6DOFEvents.h
@@ -35,10 +43,17 @@ set(HDRS
   Inventor/${Gui}/viewers/So${Gui}PlaneViewerP.h
   Inventor/${Gui}/widgets/So${Gui}GLArea.h
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.h
-  Inventor/${Gui}/widgets/So${Gui}Slider.h          # added
+  # Inventor/${Gui}/widgets/So${Gui}Slider.h          # added
   Inventor/${Gui}/widgets/So${Gui}ThumbWheel.h
   Inventor/${Gui}/widgets/WheelEvents.h     # added
 )
+
+if(HAVE_NEW_MATERIALS)
+  list(HDRS APPEND
+          ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialList.h # added
+          ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/So${Gui}MaterialList.h # added
+          )
+endif()
 
 set(SRCS
   Inventor/${Gui}/So${Gui}.cpp
@@ -50,13 +65,13 @@ set(SRCS
   Inventor/${Gui}/So${Gui}GLWidget.cpp
   Inventor/${Gui}/So${Gui}GLWidgetP.cpp #added
   Inventor/${Gui}/So${Gui}Internal.cpp #added
-  Inventor/${Gui}/So${Gui}LightSliderSet.cpp #added
-  #Inventor/${Gui}/So${Gui}MaterialList.cpp           # FIXME why not?!
-  Inventor/${Gui}/So${Gui}MaterialSliderSet.cpp #added
-  Inventor/${Gui}/So${Gui}SliderSetBase.cpp #added
-  Inventor/${Gui}/So${Gui}SliderSet.cpp #added
-  Inventor/${Gui}/So${Gui}TransformSliderSet.cpp #added
-  #Inventor/${Gui}/devices/6DOFEvents.cpp             # missing
+  # Inventor/${Gui}/So${Gui}LightSliderSet.cpp #added
+  Inventor/${Gui}/So${Gui}MaterialList.cpp           # FIXME why not?!
+  # Inventor/${Gui}/So${Gui}MaterialSliderSet.cpp #added
+  # Inventor/${Gui}/So${Gui}SliderSetBase.cpp #added
+  # Inventor/${Gui}/So${Gui}SliderSet.cpp #added
+  # Inventor/${Gui}/So${Gui}TransformSliderSet.cpp #added
+  # Inventor/${Gui}/devices/6DOFEvents.cpp             # missing
   Inventor/${Gui}/So${Gui}DirectionalLightEditor.cpp
   Inventor/${Gui}/So${Gui}GraphEditor.cpp             # added
   Inventor/${Gui}/devices/So${Gui}Device.cpp
@@ -70,14 +85,22 @@ set(SRCS
   Inventor/${Gui}/viewers/FullViewer.cpp
   Inventor/${Gui}/viewers/So${Gui}FullViewerP.cpp  # added
   Inventor/${Gui}/viewers/PlaneViewer.cpp
-  #Inventor/${Gui}/viewers/WalkViewer.cpp             # FIXME why not?!
+  # Inventor/${Gui}/viewers/WalkViewer.cpp             # FIXME why not?!
   Inventor/${Gui}/widgets/So${Gui}GLArea.cpp
-  Inventor/${Gui}/widgets/So${Gui}Slider.cpp #added
+  # Inventor/${Gui}/widgets/So${Gui}Slider.cpp #added
   Inventor/${Gui}/widgets/So${Gui}ThumbWheel.cpp
   Inventor/${Gui}/widgets/${Gui}NativePopupMenu.cpp
-  Inventor/${Gui}/widgets/WheelEvents.cpp     # added
+  Inventor/${Gui}/widgets/WheelEvents.cpp  # added
   ${thirdparty_SRCS} # For providing Coin specific code
 )
+
+if(HAVE_NEW_MATERIALS)
+  list(SRCS APPEND
+          ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialList.cpp # added
+          ${CMAKE_BINARY_DIR}/src/Inventor/${Gui}/SoAnyMaterialListBuiltins.cpp # added
+          )
+endif()
+
 
 file(GLOB_RECURSE COMMON_RESOURCES ${CMAKE_BINARY_DIR}/data/materials/*.h)
 
@@ -268,13 +291,13 @@ set(INST_HDRS
   "${CMAKE_CURRENT_BINARY_DIR}/Inventor/${Gui}/So${Gui}RenderArea.h"
   Inventor/${Gui}/So${Gui}Clipboard.h
   Inventor/${Gui}/So${Gui}DirectionalLightEditor.h
-  Inventor/${Gui}/So${Gui}LightSliderSet.h
-  Inventor/${Gui}/So${Gui}MaterialSliderSet.h
+  # Inventor/${Gui}/So${Gui}LightSliderSet.h
+  # Inventor/${Gui}/So${Gui}MaterialSliderSet.h
   # Inventor/${Gui}/So${Gui}PrintDialog.h
   Inventor/${Gui}/So${Gui}Resource.h
   Inventor/${Gui}/So${Gui}SliderSet.h
-  Inventor/${Gui}/So${Gui}SliderSetBase.h
-  Inventor/${Gui}/So${Gui}TransformSliderSet.h
+  # Inventor/${Gui}/So${Gui}SliderSetBase.h
+  # Inventor/${Gui}/So${Gui}TransformSliderSet.h
 )
 
 set(INST_DEVICES_HDRS
