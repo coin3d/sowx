@@ -8,11 +8,11 @@ Coin GUI binding for wxWidgets
 
 Thanks to the powerful porting support provided by wxWidgets SoWx compile and run on:
 
- - Linux
-   - GTK binding (preferred)
-   - X11 binding
-   - Qt binding
- - Windows 11 (Visual Studio 2022)
+- Linux
+  - GTK binding (preferred)
+  - X11 binding
+  - Qt binding
+- Windows 11 (Visual Studio 2022)
 
 MacOS is in progress.
 
@@ -20,9 +20,9 @@ MacOS is in progress.
 
 Required libs are:
 
- - wxWidgets (version >= 3.1)
- - Coin (version >= 4.0)
- - boost (version >= 1.48 only for test )
+- wxWidgets (version >= 3.1)
+- Coin (version >= 4.0)
+- boost (version >= 1.48 only for test )
 
 For other details please refer to [INSTALL](./INSTALL) file.
 
