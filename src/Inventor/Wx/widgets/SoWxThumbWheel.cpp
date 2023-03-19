@@ -337,9 +337,9 @@ SoWxThumbWheel::value() const {
 }
 
 void
-fill(std::vector<uint8_t>& buffer,
-          unsigned long n,
-          int channel = 3) {
+fillColor(std::vector<uint8_t>& buffer,
+     unsigned long n,
+     int channel = 3) {
     if(channel>3) {
         buffer.push_back((n >> 24) & 0xFF);
     }
@@ -352,7 +352,7 @@ uint8_t*
 toRGBChannel(const std::vector<unsigned int>& img) {
     std::vector<uint8_t> vout;
     for(size_t i=0;i<img.size();++i) {
-        fill(vout, img[i]);
+        fillColor(vout, img[i]);
     }
     assert(vout.size() == img.size()*3);
     uint8_t* out = static_cast<uint8_t*>(malloc( vout.size() ));

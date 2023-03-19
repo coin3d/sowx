@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 \**************************************************************************/
 
-#ifdef SOWX_DEBUG
+#ifdef TEST_CANVAS
 #define private public
 #include "wx/glcanvas.h"
 #undef private
@@ -67,7 +67,7 @@ SoWxGLArea::SoWxGLArea(wxWindow *parent,
     this->SetName("SoWxGLArea");
 
     gl_real_context = new wxGLContext(this);
-#if SOWX_DEBUG
+#ifdef TEST_CANVAS
     SoDebugError::postInfo("SoWxGLArea::SoWxGLArea",
                            "wxGLContext: (%p,%p)",
                            gl_real_context,
@@ -181,8 +181,8 @@ SoWxGLArea::isGLFeatureAvailable(const SoWxGLArea::GLFormat& format,
 }
 
 bool
-SoWxGLArea::areEqual(const SoWxGLArea::GLFormat &format1,
-                     const SoWxGLArea::GLFormat &format2) {
+SoWxGLArea::areEqual(const SoWxGLArea::GLFormat &/*format1*/,
+                     const SoWxGLArea::GLFormat &/*format2*/) {
     SOWX_STUB();
     return (false);
 }

@@ -512,9 +512,9 @@ initString(char* &destination,
     delete [] destination;
     destination = 0;
     if (data) {
-        int length = strlen(data) + 1;
-        destination = strncpy(new char[length], data, length);
-        destination[length-1]='\0';
+        int length = strlen(data) ;
+        destination = strncpy(new char[length+1], data, length);
+        destination[length]='\0';
     }
 }
 

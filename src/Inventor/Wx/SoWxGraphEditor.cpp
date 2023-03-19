@@ -227,17 +227,18 @@ SoWxGraphEditor::buildSubGraph(
     assert(node != NULL);
     const char * classname = node->getTypeId().getName().getString();
     SbName nodename = node->getName();
-    wxTreeItemId subtree;
 
     if (! nodename) {
         nodename = classname;
     } else {
         const char * name = nodename.getString();
-        char buf[128];
-        sprintf(buf, "%s \"%s\"", classname, name);
+        const size_t max_size = 128;
+        char buf[max_size];
+        snprintf(buf, max_size, "%s \"%s\"", classname, name);
         nodename = buf;
     }
 
+    wxTreeItemId subtree;
     if(!parent)
         subtree = treeCtrl->AppendItem(parent, classname);
     else
@@ -275,7 +276,7 @@ void
 SoWxGraphEditor::buildSceneGraphTree(// virtual, protected
         void)
 {
-    wxTreeItemId graph = this->buildSubGraph(0, this->scenegraph);
+    /* TODO: wxTreeItemId graph = */this->buildSubGraph(0, this->scenegraph);
     treeCtrl->ExpandAll();
     // TODO: ww_tree_item_expand(WX_TREE_ITEM(graph));
 } // buildSceneGraphTree()
