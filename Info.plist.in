@@ -5,9 +5,9 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleExecutable</key>
-    <string>SoQt</string>
+    <string>SoWx</string>
     <key>CFBundleGetInfoString</key>
-    <string>SoQt framework, Copyright (c) 2022, Fabrizio Morciano</string>
+    <string>SoWx framework, Copyright (c) 2023, Fabrizio Morciano</string>
     <key>CFBundleIdentifier</key>
     <string>org.coin3d.SoWx.framework</string>
     <key>CFBundleInfoDictionaryVersion</key>
@@ -21,7 +21,7 @@
     <key>CFBundleVersion</key>
     <string>@SOWX_VERSION@</string>
     <key>NSHumanReadableCopyright</key>
-    <string>Copyright (C) Copyright (c) 2022, Fabrizio Morciano</string>
+    <string>Copyright (C) Copyright (c) 2023, Fabrizio Morciano</string>
     <key>CSResourcesFileMapped</key>
     <true/>
 </dict>

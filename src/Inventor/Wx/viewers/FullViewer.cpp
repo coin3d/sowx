@@ -1,7 +1,7 @@
 /**************************************************************************\
  * BSD 3-Clause License
  *
- * Copyright (c) 2022, Fabrizio Morciano
+ * Copyright (c) 2023, Fabrizio Morciano
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -307,6 +307,7 @@ SoWxFullViewer::buildLeftTrim(wxWindow* parent){
 #if SOWX_DEBUG && 0
     p->SetBackgroundColour(wxColour(255, 0, 255));
 #endif
+
 
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     SoWxThumbWheel * t = new SoWxThumbWheel(SoWxThumbWheel::Vertical, p);
