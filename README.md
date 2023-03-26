@@ -16,6 +16,15 @@ Thanks to the powerful porting support provided by wxWidgets SoWx compile and ru
 
 MacOS is in progress.
 
+## Open Inventor SGI support
+
+SoWx support also SGI Open Inventor.
+SGI Open Inventor can be found in Ubuntu release (e.g. 22.04).
+Install as:
+	sudo apt-get install inventor-clients inventor-data inventor-demo inventor-dev
+Enable Open Inventor in compilation with:
+    cmake -DSOWX_USE_OIV=ON ...
+
 ## Linux compilation
 
 Required libs are:
@@ -59,6 +68,15 @@ Added specific option on cmake
     cmake -DSOWX_SANITIZE_ADDRESS=ON ...
 
 ## Known limitations
+
+### Off Screen Rendering
+
+Off Screen rendering is not working on Coin and this impacts on SoWxMaterialEditor.
+
+### SGI Open Inventor
+
+SoWxMaterialEditor and SoWxColorEditor do not work with SGI Open Inventor
+
 
 ### X11 binding on wxWidgets
     
