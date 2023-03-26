@@ -7,6 +7,29 @@ on:
     branches: [ main ]
 
 jobs:
+  ubuntu_inventor-build:
+    name: Ubuntu Build for Open Inventor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Create build directory and run CMake
+        run: |
+          sudo apt-key adv --fetch-keys https://repos.codelite.org/CodeLite.asc
+          sudo apt-add-repository 'deb https://repos.codelite.org/wx3.2.0/ubuntu/ jammy universe'
+          sudo apt-get -y update
+          sudo apt-get -y install freeglut3-dev wx3.2-headers* libwxgtk3.2* libboost-dev inventor-*
+          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSOWX_USE_OIV=ON -DSOWX_BUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=cmake_install_dir
+      - name: Build project
+        run: cmake --build cmake_build_dir --target install --config Release -- -j4
+      - name: Create Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Ubuntu-Artifacts
+          path: cmake_install_dir/
+        if: always()
+
   ubuntu-build:
     name: Ubuntu Build
     runs-on: ubuntu-latest
