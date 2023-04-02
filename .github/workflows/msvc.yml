@@ -1,0 +1,81 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# Find more information at:
+# https://github.com/microsoft/msvc-code-analysis-action
+
+name: Microsoft C++ Code Analysis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '34 20 * * 6'
+
+env:
+  # Path to the CMake build directory.
+  build: '${{ github.workspace }}/build'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    name: Analyze
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Checkout repository
+        run: git submodule update --init --recursive
+
+      - name: Configure CMake
+        shell: cmd
+        run: |
+          mkdir ..\cmake_download_dir
+          set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases ^| jq -r --arg COIN_REPO_TAG_NAME "CI-builds" ".[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id"') do set RELEASE_ID=%%i
+          for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/%RELEASE_ID% ^| jq -r --arg DOWNLOAD_FILE_COIN "%DOWNLOAD_FILE_COIN%" ".assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id"') do set ASSET_ID=%%i
+          set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
+          echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
+          curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
+          7z x %DOWNLOAD_FILE_COIN% -o..\cmake_download_dir
+          curl -s -S -L -H"Accept: application/octet-stream" -o wxdev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxMSW-3.2.2_vc14x_x64_Dev.7z
+          7z x wxdev.7z -o..\cmake_download_dir
+          curl -s -S -L -H"Accept: application/octet-stream" -o wxinclude.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1-headers.7z
+          7z x wxinclude.7z -o..\cmake_download_dir
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DwxWidgets_ROOT_DIR=..\cmake_download_dir -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=..\cmake_download_dir/Coin3D
+          
+      # Build is not required unless generated source files are used
+      # - name: Build CMake
+      #   run: cmake --build ${{ env.build }}
+
+      - name: Initialize MSVC Code Analysis
+        uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99
+        # Provide a unique ID to access the sarif output path
+        id: run-analysis
+        with:
+          cmakeBuildDirectory: ${{ env.build }}
+          # Ruleset file that will determine what checks will be run
+          ruleset: NativeRecommendedRules.ruleset
+
+      # Upload SARIF file to GitHub Code Scanning Alerts
+      - name: Upload SARIF to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.run-analysis.outputs.sarif }}
+
+      # Upload SARIF file as an Artifact to download and view
+      # - name: Upload SARIF as an Artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: sarif-file
+      #     path: ${{ steps.run-analysis.outputs.sarif }}
