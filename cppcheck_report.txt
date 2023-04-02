@@ -1,0 +1,392 @@
+src/Inventor/Wx/SoWx.cpp:51:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (SOWX_DEBUG && SoWxP::instance()->isInitialized()) {
+^
+src/Inventor/Wx/SoWx.cpp:99:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (SOWX_DEBUG && SoWxP::instance()->isInitialized()) {
+^
+src/Inventor/Wx/SoWx.cpp:184:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (SOWX_DEBUG && !title) {
+^
+src/Inventor/Wx/SoWx.cpp:188:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if (SOWX_DEBUG && !string1) {
+^
+src/Inventor/Wx/SoWxComponent.cpp:184:0: information: Skipping configuration 'SOWX_DEBUG;SOWX_INTERNAL' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    if(SOWX_DEBUG && !PRIVATE(this)->widget) { // debug
+^
+src/Inventor/Wx/SoWxDirectionalLightEditor.cpp:74:14: warning: Possible null pointer dereference: light [nullPointer]
+    return (*light);
+             ^
+src/Inventor/Wx/SoWxDirectionalLightEditor.cpp:73:40: note: Assignment 'light=0', assigned value is 0
+    static SoDirectionalLight* light = 0;
+                                       ^
+src/Inventor/Wx/SoWxDirectionalLightEditor.cpp:74:14: note: Null pointer dereference
+    return (*light);
+             ^
+src/Inventor/Wx/SoWxGLWidget.cpp:110:19: style: Variable 'frame' is assigned a value that is never used. [unreadVariable]
+        int frame = this->isBorder() ? PRIVATE(this)->borderthickness : 0;
+                  ^
+src/Inventor/Wx/SoWxGLWidgetP.cpp:239:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+        if (SOWX_DEBUG) { // Warn about requested features that we didn't get.
+^
+src/Inventor/Wx/SoWxGraphEditor.cpp:208:10: style:inconclusive: Member variable 'wxSoData::type' is in the wrong place in the initializer list. [initializerList]
+    Type type;
+         ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:216:6: note: Member variable 'wxSoData::type' is in the wrong place in the initializer list.
+    ,type(aType){
+     ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:208:10: note: Member variable 'wxSoData::type' is in the wrong place in the initializer list.
+    Type type;
+         ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:242:5: style:inconclusive: Found duplicate branches for 'if' and 'else'. [duplicateBranch]
+    if(!parent)
+    ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:244:5: note: Found duplicate branches for 'if' and 'else'.
+    else
+    ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:242:5: note: Found duplicate branches for 'if' and 'else'.
+    if(!parent)
+    ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:232:18: style: Variable 'nodename' is assigned a value that is never used. [unreadVariable]
+        nodename = classname;
+                 ^
+src/Inventor/Wx/SoWxGraphEditor.cpp:238:18: style: Variable 'nodename' is assigned a value that is never used. [unreadVariable]
+        nodename = buf;
+                 ^
+src/Inventor/Wx/SoWxP.cpp:78:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+    } else if (SOWX_DEBUG){
+^
+src/Inventor/Wx/SoWxP.cpp:196:0: information: Skipping configuration 'SOWX_DEBUG' since the value of 'SOWX_DEBUG' is unknown. Use -D if you want to check it. You can use -U to skip it explicitly. [ConfigurationNotChecked]
+            if (SOWX_DEBUG && 0) { // debug
+^
+src/Inventor/Wx/devices/SoWxInputFocus.cpp:44:5: style: Class 'SoWxInputFocusP' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    SoWxInputFocusP(SoWxInputFocus * p) : SoGuiInputFocusP(p) { }
+    ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:106:22: warning: Assert statement calls a function which may have desired side effects: 'getMenuRecord'. [assertWithSideEffect]
+        assert(this->getMenuRecord(id) == NULL &&
+                     ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:165:22: warning: Assert statement calls a function which may have desired side effects: 'getItemRecord'. [assertWithSideEffect]
+        assert(this->getItemRecord(itemid) == NULL &&
+                     ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:134:37: style:inconclusive: Function 'setMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'. [funcArgNamesDifferent]
+WxNativePopupMenu::setMenuTitle(int menuid,
+                                    ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.h:50:35: note: Function 'setMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'.
+    virtual void setMenuTitle(int id, const char * title) ;
+                                  ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:134:37: note: Function 'setMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'.
+WxNativePopupMenu::setMenuTitle(int menuid,
+                                    ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:149:37: style:inconclusive: Function 'getMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'. [funcArgNamesDifferent]
+WxNativePopupMenu::getMenuTitle(int menuid) {
+                                    ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.h:51:43: note: Function 'getMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'.
+    virtual const char * getMenuTitle(int id) ;
+                                          ^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:149:37: note: Function 'getMenuTitle' argument 1 names different: declaration 'id' definition 'menuid'.
+WxNativePopupMenu::getMenuTitle(int menuid) {
+                                    ^
+test-code/Mentor/10.1.addEventCB.cpp:210:13: style: The scope of the variable 'selectedPath' can be reduced. [variableScope]
+    SoPath *selectedPath;
+            ^
+test-code/Mentor/16.1.Overlay.cpp:115:10: style: The scope of the variable 'num' can be reduced. [variableScope]
+     int num;
+         ^
+test-code/Mentor/16.1.Overlay.cpp:148:50: error: Uninitialized variable: value [uninitvar]
+     myViewer->setOverlayColorMap(colorMapSize-1-value, 1, &color);
+                                                 ^
+test-code/Mentor/16.1.Overlay.cpp:148:50: error: Uninitialized variable: value [uninitvar]
+     myViewer->setOverlayColorMap(colorMapSize-1-value, 1, &color);
+                                                 ^
+test-code/Mentor/16.1.Overlay.cpp:126:10: note: Assuming condition is false
+     if (path)
+         ^
+test-code/Mentor/16.1.Overlay.cpp:148:50: note: Uninitialized variable: value
+     myViewer->setOverlayColorMap(colorMapSize-1-value, 1, &color);
+                                                 ^
+test-code/Mentor/16.1.Overlay.cpp:138:16: style: Variable 'num' is assigned a value that is never used. [unreadVariable]
+           num = ((SoColorIndex *)child)->index.getNum();
+               ^
+test-code/components/planeviewer.cpp:45:21: style: Variable 'window' is assigned a value that is never used. [unreadVariable]
+  wxWindow * window = SoWx::init( argv[0] );
+                    ^
+test-code/components/scrollview.cpp:66:5: style: Class 'MyScrollView' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    MyScrollView( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL ) : wxFrame( parent, id, title, pos, size, style )
+    ^
+test-code/viewers/background_canvas.cpp:125:44: style: Same expression on both sides of '/'. [duplicateExpression]
+    offset->translation = SbVec3f(ARROWSIZE/2.0, 0, 0);
+                                           ^
+test-code/viewers/background_canvas.cpp:116:31: note: 'ARROWSIZE' is assigned value '2.0' here.
+    const double ARROWSIZE = 2.0;
+                              ^
+test-code/viewers/background_canvas.cpp:125:44: note: Same expression on both sides of '/'.
+    offset->translation = SbVec3f(ARROWSIZE/2.0, 0, 0);
+                                           ^
+test-code/viewers/embeddedexaminer.cpp:64:5: style: Class 'SplitFrame' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    SplitFrame( wxWindow* parent,
+    ^
+test-code/viewers/fullviewer.cpp:52:5: style: Class 'MyViewer' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    MyViewer(wxWindow* window) :
+    ^
+test-code/viewers/lefttrim.cpp:65:21: style: Variable 'w' is assigned a value that is never used. [unreadVariable]
+        wxWindow* w = renderarea->buildLeftTrim(asimpleframe);
+                    ^
+test-code/wxWidgets/uiaction/uiaction.cpp:75:5: style: Class 'MyFrame' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+    MyFrame(const wxString& title);
+    ^
+test-code/wxWidgets/wxFormBuilder/example1/example_1.h:50:3: style: Class 'AFrame' has a constructor with 1 argument that is not explicit. [noExplicitConstructor]
+  AFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+  ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:42:18: style: The function 'on_size' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+    virtual void on_size( wxSizeEvent& event );
+                 ^
+test-code/wxWidgets/wxFormBuilder/example1/example_1.h:45:16: note: Virtual function in base class
+  virtual void on_size( wxSizeEvent& event ) { event.Skip(); }
+               ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:42:18: note: Function in derived class
+    virtual void on_size( wxSizeEvent& event );
+                 ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:43:18: style: The function 'on_about' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+    virtual void on_about( wxCommandEvent& event );
+                 ^
+test-code/wxWidgets/wxFormBuilder/example1/example_1.h:43:16: note: Virtual function in base class
+  virtual void on_about( wxCommandEvent& event ) { event.Skip(); }
+               ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:43:18: note: Function in derived class
+    virtual void on_about( wxCommandEvent& event );
+                 ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:44:18: style: The function 'on_quit' overrides a function in a base class but is not marked with a 'override' specifier. [missingOverride]
+    virtual void on_quit( wxCommandEvent& event );
+                 ^
+test-code/wxWidgets/wxFormBuilder/example1/example_1.h:44:16: note: Virtual function in base class
+  virtual void on_quit( wxCommandEvent& event ) { event.Skip(); }
+               ^
+test-code/wxWidgets/wxFormBuilder/example1/MyFrame.h:44:18: note: Function in derived class
+    virtual void on_quit( wxCommandEvent& event );
+                 ^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/components/tripleview.cpp:126:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/components/wx_renderarea.cpp:44:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/viewers/bottomtrim.cpp:47:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/viewers/decorationwidgets.cpp:48:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/viewers/fullviewer.cpp:67:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/viewers/lefttrim.cpp:49:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/viewers/righttrim.cpp:45:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/widgets/buttons.cpp:56:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/widgets/gridbagsizer.cpp:40:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/widgets/gridbagsizer2.cpp:51:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/widgets/multisizer.cpp:51:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/widgets/thumbwheel.cpp:48:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/wxWidgets/propertytree.cpp:41:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/wxWidgets/test_egl.cpp:53:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/wxWidgets/treecontrol.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/wxWidgets/uiaction/uiaction.cpp:62:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: error: The one definition rule is violated, different classes/structs have the same name 'MyApp' [ctuOneDefinitionRuleViolation]
+class MyApp : public wxApp
+^
+test-code/wxWidgets/wxFormBuilder/example1/main.cpp:74:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+test-code/base/error_dialog.cpp:39:1: note: The one definition rule is violated, different classes/structs have the same name 'MyApp'
+class MyApp : public wxApp
+^
+src/Inventor/Wx/SoWxP.cpp:55:0: style: The function 'CleanUp' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/SoWxP.cpp:97:0: style: The function 'Notify' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:237:0: style: The function '_setMenuItemMarked' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:266:0: style: The function 'addMenu' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:287:0: style: The function 'addMenuItem' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:311:0: style: The function 'addSeparator' is never used. [unusedFunction]
+
+^
+src/thirdparty/Inventor/C/threads/mutex.cpp:7:0: style: The function 'cc_mutex_construct' is never used. [unusedFunction]
+
+^
+src/thirdparty/Inventor/C/threads/mutex.cpp:11:0: style: The function 'cc_mutex_destruct' is never used. [unusedFunction]
+
+^
+src/thirdparty/Inventor/C/threads/mutex.cpp:15:0: style: The function 'cc_mutex_lock' is never used. [unusedFunction]
+
+^
+src/thirdparty/Inventor/C/threads/mutex.cpp:19:0: style: The function 'cc_mutex_try_lock' is never used. [unusedFunction]
+
+^
+src/thirdparty/Inventor/C/threads/mutex.cpp:24:0: style: The function 'cc_mutex_unlock' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:120:0: style: The function 'getMenu' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:177:0: style: The function 'getMenuItem' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:225:0: style: The function 'getMenuItemEnabled' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:254:0: style: The function 'getMenuItemMarked' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:204:0: style: The function 'getMenuItemTitle' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:149:0: style: The function 'getMenuTitle' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:97:0: style: The function 'newMenu' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:158:0: style: The function 'newMenuItem' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:329:0: style: The function 'removeMenu' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:356:0: style: The function 'removeMenuItem' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:213:0: style: The function 'setMenuItemEnabled' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:191:0: style: The function 'setMenuItemTitle' is never used. [unusedFunction]
+
+^
+src/Inventor/Wx/widgets/WxNativePopupMenu.cpp:134:0: style: The function 'setMenuTitle' is never used. [unusedFunction]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files (use --check-config for details) [missingInclude]
+
