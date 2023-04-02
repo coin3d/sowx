@@ -16,3 +16,5 @@ TODO
 * [ ] Add missing classes
 * [X] tripleview is not realising resource properly
 * [ ] embeddedexaminer does not refresh while moving splitter
+* [ ] Provide package for Conan
+* [ ] Provide package for vcspkg
