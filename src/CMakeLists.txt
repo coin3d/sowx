@@ -183,9 +183,9 @@ if(NOT SO${GUI}_BUILD_MAC_FRAMEWORK)
 endif()
 
 if(NOT SO${GUI}_USE_OIV)
-	target_link_libraries(${PROJECT_NAME} Coin::Coin ${wxWidgets_LIBRARIES})
+	target_link_libraries(${PROJECT_NAME} Coin::Coin ${wxWidgets_LIBRARIES} OpenGL::GL)
 else()
-	target_link_libraries(${PROJECT_NAME} ${OIV_LIBRARY} ${wxWidgets_LIBRARIES})
+	target_link_libraries(${PROJECT_NAME} ${OIV_LIBRARY} ${wxWidgets_LIBRARIES} OpenGL::GL)
 endif()
 
 
