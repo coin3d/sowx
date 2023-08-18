@@ -34,10 +34,10 @@
 #include <boost/test/unit_test.hpp>
 #include "Inventor/Wx/devices/SoWxKeyboardP.h"
 
-BOOST_AUTO_TEST_SUITE(TestSoWxKeyboardP);
+BOOST_AUTO_TEST_SUITE(TestSoWxKeyboardP)
 
 static int counter = 0;
-void myData(SbDictKeyType key, void * value) {
+void myData(SbDictKeyType , void * ) {
     ++counter ;
     // std::clog<<"code::"<<(wxKeyCode)(key)<<std::endl;
 }
@@ -50,4 +50,4 @@ BOOST_AUTO_TEST_CASE(keyMapTest) {
 
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

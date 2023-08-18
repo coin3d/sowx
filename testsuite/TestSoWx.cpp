@@ -35,7 +35,7 @@
 #include "Inventor/Wx/SoWx.h"
 #include <wx/version.h>
 
-BOOST_AUTO_TEST_SUITE(TestSoWx);
+BOOST_AUTO_TEST_SUITE(TestSoWx)
 
 std::string 
 buildVersion(int major, 
@@ -63,4 +63,4 @@ BOOST_AUTO_TEST_CASE(shouldVerifyVersion) {
 }
 
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

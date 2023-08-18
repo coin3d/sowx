@@ -167,7 +167,7 @@ private:
 /***********************************************************************/
 
 int
-main(int argc, char ** argv)
+main(int , char ** )
 {
   // Initialize Wx and SoWx.
   SoWx::init((wxWindow*)NULL);

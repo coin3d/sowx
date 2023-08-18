@@ -49,11 +49,12 @@ SbBool myRenderAreaEventCB(void * /*closure*/,
     SoDebugError::postInfo("myRenderAreaEventCB",
                            "called!");
     event.Skip();
+    return (TRUE);
 }
 
 int
-main(int argc,
-     char ** argv )
+main(int ,
+     char ** )
 {
     wxWindow* window = SoWx::init( "examinerviewer_with_callback" );
 

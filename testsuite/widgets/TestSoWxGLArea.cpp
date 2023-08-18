@@ -34,7 +34,7 @@
 #include <boost/test/unit_test.hpp>
 #include "Inventor/Wx/widgets/SoWxGLArea.h"
 
-BOOST_AUTO_TEST_SUITE(TestSoWxGLArea);
+BOOST_AUTO_TEST_SUITE(TestSoWxGLArea)
 
 BOOST_AUTO_TEST_CASE(shouldFailIf_isGLFeatureAvailable_Empty) {
     SoWxGLArea::GLFormat format;
@@ -72,4 +72,4 @@ BOOST_AUTO_TEST_CASE(shouldFindFormatWithParameter) {
                                                   WX_GL_BUFFER_SIZE));
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

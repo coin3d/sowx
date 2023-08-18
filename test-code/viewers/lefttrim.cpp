@@ -62,7 +62,7 @@ public:
                                                     wxDefaultPosition,
                                                     wxSize(50,200));
         std::clog<<dumpWindowData(asimpleframe)<<std::endl;
-        wxWindow* w = renderarea->buildLeftTrim(asimpleframe);
+        renderarea->buildLeftTrim(asimpleframe);
         //asimpleframe->SetSize(w->GetSize());
         std::clog<<dumpWindowData(asimpleframe)<<std::endl;
         asimpleframe->Layout();

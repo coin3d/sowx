@@ -35,15 +35,15 @@
 #include "Inventor/Wx/SoWx.h"
 #include "Inventor/Wx/SoWxComponent.h"
 
-BOOST_AUTO_TEST_SUITE(TestSoWxComponent);
+BOOST_AUTO_TEST_SUITE(TestSoWxComponent)
 
 
 class MyComponent : public SoWxComponent {
 public:
     // make visible protected c'tor
-    MyComponent(wxWindow* const parent = NULL,
-                const char * const name = NULL,
-                const SbBool embed = TRUE) {
+    MyComponent(wxWindow* const  = NULL,
+                const char * const  = NULL,
+                const SbBool  = TRUE) {
 
     }
 };
@@ -67,4 +67,4 @@ BOOST_AUTO_TEST_CASE(shouldCallFinishCallback) {
     BOOST_ASSERT(status == true);
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

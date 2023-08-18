@@ -38,7 +38,7 @@
 // *************************************************************************
 
 int
-main(int argc,
+main(int ,
      char ** argv )
 {
     wxWindow* window = SoWx::init( argv[0] );

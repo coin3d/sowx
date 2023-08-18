@@ -73,7 +73,7 @@
 // Timer callback function will rotate the scene according to the
 // current time.
 static void
-timer_callback(void * data, SoSensor * sensor)
+timer_callback(void * data, SoSensor * )
 {
     static SbTime t = SbTime::getTimeOfDay().getValue();
     SbTime timediff = SbTime::getTimeOfDay() - t;
