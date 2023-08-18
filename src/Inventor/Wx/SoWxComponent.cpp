@@ -154,7 +154,7 @@ SoWxComponent::setBaseWidget(wxWindow* w) {
          */
         widgetName = (PRIVATE(this)->widget->GetName().IsEmpty() ?
                       widgetName :
-                      PRIVATE(this)->widget->GetName());
+                      PRIVATE(this)->widget->GetName().ToStdString());
 
         this->unregisterWidget(PRIVATE(this)->widget);
     }
@@ -395,15 +395,15 @@ SoWxComponent::setTitle(const char * const title) {
 
 const char *
 SoWxComponent::getTitle(void) const {
-    const char *title = "";
+    static std::string title = "";
     wxWindow* shell = SoWx::getShellWidget(this->getWidget());
     if(shell) {
-        title = shell->GetName();
+        title = shell->GetName().ToStdString();
     } else {
         SoDebugError::postWarning("SoWxComponent::getTitle",
                                   "can not get a title for null shell");
     }
-    return (title);
+    return (title.c_str());
 }
 
 void
