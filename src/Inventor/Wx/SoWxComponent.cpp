@@ -407,7 +407,7 @@ SoWxComponent::getTitle(void) const {
 }
 
 void
-SoWxComponent::setIconTitle(const char * const title) {
+SoWxComponent::setIconTitle(const char * const /*title*/) {
     SOWX_STUB();
 }
 
@@ -448,7 +448,7 @@ SoWxComponent::setWindowCloseCallback(SoWxComponentCB * const func,
 
 
 void
-SoWxComponent::sizeChanged(const SbVec2s & size) {
+SoWxComponent::sizeChanged(const SbVec2s & /*size*/) {
     // The default implementation does nothing.
 }
 
@@ -464,7 +464,7 @@ SoWxComponent::addVisibilityChangeCallback(SoWxComponentVisibilityCB * const fun
 
 void
 SoWxComponent::removeVisibilityChangeCallback(SoWxComponentVisibilityCB * const func,
-                                              void * const user){
+                                              void * const /*user*/){
 #if SOQT_DEBUG
     if (! PRIVATE(this)->visibilitychangeCBs) {
     SoDebugError::postWarning("SoQtComponent::removeVisibilityChangeCallback",
