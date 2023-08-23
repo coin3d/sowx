@@ -26,8 +26,9 @@
 
 include(CMakeFindDependencyMacro)
 
+find_dependency(OpenGL REQUIRED)
 find_dependency(Coin REQUIRED)
-find_package(wxWidgets REQUIRED gl core base)
+find_dependency(wxWidgets REQUIRED gl core base)
 
 include(${wxWidgets_USE_FILE})
 
