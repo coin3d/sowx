@@ -205,7 +205,7 @@ SoWxGLWidgetP::buildGLWidget(void) {
         if (wasprevious
             // TODO: && QGLFormat_eq(*this->glformat, waspreviousarea->format())
                 ) {
-            // Reenable the previous widget.
+            // Re-enable the previous widget.
             if (this->currentglwidget) SoAny::si()->unregisterGLContext((void *) PUBLIC(this));
             this->currentglwidget = wasprevious;
             this->currentglarea = waspreviousarea;
