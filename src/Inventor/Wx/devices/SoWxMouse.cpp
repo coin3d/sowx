@@ -101,7 +101,7 @@ const SoEvent * SoWxMouse::translateEvent(wxEvent& event) {
 #endif // HAVE_SOMOUSEBUTTONEVENT_BUTTON5
 
 // Check for mousebutton press/release. Note that mousebutton
-// doubleclick events are handled by converting them to two
+// double-click events are handled by converting them to two
 // press/release events. In other words: it's the user's
 // responsibility to translate pairs of singleclicks to
 // doubleclicks, if doubleclicks have a special meaning in the
