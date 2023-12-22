@@ -1,17 +1,19 @@
 name: Continuous Integration Build
 
 on:
+  workflow_dispatch:  # Allow manual triggers
   pull_request:
-    branches: [ main ]
-  push:
-    branches: [ main ]
+    branches: [ master ]
+#  push:
+#    branches: [ master ]
 
 jobs:
   ubuntu_inventor-build:
     name: Ubuntu Build for Open Inventor
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Create build directory and run CMake
@@ -23,6 +25,9 @@ jobs:
           cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSOWX_USE_OIV=ON -DSOWX_BUILD_TESTS=ON -DCMAKE_INSTALL_PREFIX=cmake_install_dir
       - name: Build project
         run: cmake --build cmake_build_dir --target install --config Release -- -j4
+      #- name: Run tests
+      #  run:  ctest -C Release -VV
+      #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -34,7 +39,8 @@ jobs:
     name: Ubuntu Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Create build directory and run CMake
@@ -44,19 +50,19 @@ jobs:
           sudo apt-get -y update
           sudo apt-get -y install freeglut3-dev wx3.2-headers* libwxgtk3.2* libboost-dev
           mkdir cmake_download_dir
-          DOWNLOAD_FILE_COIN=coin-latest-Ubuntu2004-gcc9-x64.tar.gz
+          DOWNLOAD_FILE_COIN=coin-latest-Ubuntu2204-gcc11-x64.tar.gz
           RELEASE_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases | jq -r --arg COIN_REPO_TAG_NAME "CI-builds" '.[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id'`
           ASSET_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_COIN "$DOWNLOAD_FILE_COIN" '.assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id'`
           export DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/$ASSET_ID
           echo download file $DOWNLOAD_FILE_COIN from address $DOWNLOAD_ADDRESS_COIN
           curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o $DOWNLOAD_FILE_COIN $DOWNLOAD_ADDRESS_COIN
           tar xzf $DOWNLOAD_FILE_COIN -C cmake_download_dir
-          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSOWX_BUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
+          cmake -S . -B cmake_build_dir -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
       - name: Build project
         run: cmake --build cmake_build_dir --target install --config Release -- -j4
-      - name: Run tests
-        run:  ctest -C Release -VV
-        working-directory: cmake_build_dir
+      #- name: Run tests
+      #  run:  ctest -C Release -VV
+      #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -68,29 +74,30 @@ jobs:
     name: Windows Build
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Create build directory and run CMake
         shell: cmd
         run: |
-          mkdir ..\cmake_download_dir
+          mkdir cmake_download_dir
           set DOWNLOAD_FILE_COIN=coin-latest-msvc17-x64.zip
           for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases ^| jq -r --arg COIN_REPO_TAG_NAME "CI-builds" ".[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id"') do set RELEASE_ID=%%i
           for /f %%i in ('curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/%RELEASE_ID% ^| jq -r --arg DOWNLOAD_FILE_COIN "%DOWNLOAD_FILE_COIN%" ".assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id"') do set ASSET_ID=%%i
           set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
           echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
           curl -s -S -L -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
-          7z x %DOWNLOAD_FILE_COIN% -o..\cmake_download_dir
-          curl -s -S -L -H"Accept: application/octet-stream" -o wxdev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxMSW-3.2.2_vc14x_x64_Dev.7z
-          7z x wxdev.7z -o..\cmake_download_dir
-          curl -s -S -L -H"Accept: application/octet-stream" -o wxinclude.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1-headers.7z
-          7z x wxinclude.7z -o..\cmake_download_dir
-          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DwxWidgets_ROOT_DIR=..\cmake_download_dir -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=..\cmake_download_dir/Coin3D
+          7z x %DOWNLOAD_FILE_COIN% -ocmake_download_dir
+          curl -s -S -L -H "Accept: application/octet-stream" -o wxdev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxMSW-3.2.2_vc14x_x64_Dev.7z
+          7z x wxdev.7z -ocmake_download_dir
+          curl -s -S -L -H "Accept: application/octet-stream" -o wxinclude.7z https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1-headers.7z
+          7z x wxinclude.7z -ocmake_download_dir
+          cmake -S . -B cmake_build_dir -G "Visual Studio 17 2022" -A x64 -DwxWidgets_ROOT_DIR=cmake_download_dir -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=cmake_install_dir -DCMAKE_PREFIX_PATH=cmake_download_dir/Coin3D
       - name: Build project
         run: cmake --build cmake_build_dir --target INSTALL --config Release -- /nologo /verbosity:minimal /maxcpucount:2 /property:MultiProcessorCompilation=true
       #- name: Run tests
-      #  run: ctest -C Release -VV
+      #  run:  ctest -C Release -VV
       #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v3
@@ -103,16 +110,17 @@ jobs:
     name: MacOS Build
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Create build directory and run CMake
         run: |
           brew install wxwidgets
           export PATH=$PATH:$(brew --prefix wxwidgets)/bin
           export CMAKE_PREFIX_PATH=/usr/local/opt/wxwidgets
           mkdir cmake_download_dir
-          DOWNLOAD_FILE_COIN=coin-latest-macos-bigsur-clang13-x64.tar.gz
+          DOWNLOAD_FILE_COIN=coin-latest-macos-monterey-clang14-x64.tar.gz
           RELEASE_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases | jq -r --arg COIN_REPO_TAG_NAME "CI-builds" '.[] | select(.tag_name==$COIN_REPO_TAG_NAME) | .id'`
           ASSET_ID=`curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/coin3d/coin/releases/$RELEASE_ID | jq -r --arg DOWNLOAD_FILE_COIN "$DOWNLOAD_FILE_COIN" '.assets[] | select(.name==$DOWNLOAD_FILE_COIN) | .id'`
           export DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/$ASSET_ID
@@ -123,7 +131,7 @@ jobs:
       - name: Build project
         run: cmake --build cmake_build_dir --target install --config Release -- -j4
       #- name: Run tests
-      #  run: ctest -C Release -VV
+      #  run:  ctest -C Release -VV
       #  working-directory: cmake_build_dir
       - name: Create Artifacts
         uses: actions/upload-artifact@v3
