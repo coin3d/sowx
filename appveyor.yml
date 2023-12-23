@@ -27,10 +27,10 @@ environment:
 #      CMAKE_PLATFORM: x64
 #      COMPILER_ID: clang
 
-#    - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
-#      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_PLATFORM: x64
-#      COMPILER_ID: clang
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-bigsur
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: clang
 
     - APPVEYOR_BUILD_WORKER_IMAGE: macos-monterey
       CMAKE_GENERATOR: 'Unix Makefiles'
@@ -43,17 +43,17 @@ environment:
 #      CMAKE_ARCH_FLAGS: -m32
 #      COMPILER_ID: gcc
 
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
-#      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_PLATFORM: x64
-#      CMAKE_ARCH_FLAGS: -m64
-#      COMPILER_ID: gcc
-#
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
-#      CMAKE_GENERATOR: 'Unix Makefiles'
-#      CMAKE_PLATFORM: x64
-#      CMAKE_ARCH_FLAGS: -m64
-#      COMPILER_ID: gcc
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu1804
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      CMAKE_ARCH_FLAGS: -m64
+      COMPILER_ID: gcc
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2004
+      CMAKE_GENERATOR: 'Unix Makefiles'
+      CMAKE_PLATFORM: x64
+      CMAKE_ARCH_FLAGS: -m64
+      COMPILER_ID: gcc
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
       CMAKE_GENERATOR: 'Unix Makefiles'
@@ -79,11 +79,11 @@ environment:
 #      CMAKE_PLATFORM: x86
 #      COMPILER_ID: msvc14
 #
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-#      CMAKE_GENERATOR: 'Visual Studio 14 2015'
-#      CMAKE_ARCHITECTURE: x64
-#      CMAKE_PLATFORM: x64
-#      COMPILER_ID: msvc14
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      CMAKE_GENERATOR: 'Visual Studio 14 2015'
+      CMAKE_ARCHITECTURE: x64
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: msvc14
 #
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 #      CMAKE_GENERATOR: 'Visual Studio 15 2017'
@@ -91,11 +91,11 @@ environment:
 #      CMAKE_PLATFORM: x86
 #      COMPILER_ID: msvc15
 #
-#    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-#      CMAKE_GENERATOR: 'Visual Studio 15 2017'
-#      CMAKE_ARCHITECTURE: x64
-#      CMAKE_PLATFORM: x64
-#      COMPILER_ID: msvc15
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      CMAKE_GENERATOR: 'Visual Studio 15 2017'
+      CMAKE_ARCHITECTURE: x64
+      CMAKE_PLATFORM: x64
+      COMPILER_ID: msvc15
 
 #    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 #      CMAKE_GENERATOR: 'Visual Studio 16 2019'
@@ -239,7 +239,7 @@ after_build:
   - sh: |
       cd $APPVEYOR_BUILD_FOLDER
       if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export CI_REPO_VERSION=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_VERSION=latest; fi
-      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-$CMAKE_PLATFORM.tar.gz
+      BUILD_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-$COMPILER_ID-$CMAKE_PLATFORM.tar.gz
       tar czf $BUILD_ARCHIVE Coin3D/*
       md5sum -b $BUILD_ARCHIVE > $BUILD_ARCHIVE.md5
       sha256sum -b $BUILD_ARCHIVE > $BUILD_ARCHIVE.sha256
