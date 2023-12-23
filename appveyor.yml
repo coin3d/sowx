@@ -133,7 +133,7 @@ install:
   - cmd: |
       choco install jq
       rem Work around for outdated curl version giving problems with GitHub Authentication when redirected.
-      set PATH=%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14;C:\msys64\%COMPILER_ID%\bin;C:\msys64\usr\bin\;%PATH%
+      set PATH=%APPVEYOR_BUILD_FOLDER%\..\downloads\doxygen-1.8.14;C:\msys64\%COMPILER_ID%\bin;C:\msys64\usr\bin\;%PATH%
       curl --version
       cd %APPVEYOR_BUILD_FOLDER%
   - git submodule update --init --recursive
@@ -146,10 +146,10 @@ before_build:
       7z a -xr!*\.git/ -tzip %BUILD_SOURCE_ARCHIVE% %APPVEYOR_BUILD_FOLDER%
       C:\msys64\usr\bin\md5sum.exe -b %BUILD_SOURCE_ARCHIVE% > %BUILD_SOURCE_ARCHIVE%.md5
       C:\msys64\usr\bin\sha256sum.exe -b %BUILD_SOURCE_ARCHIVE% > %BUILD_SOURCE_ARCHIVE%.sha256
-      mkdir %APPVEYOR_BUILD_FOLDER%\downloads
+      mkdir %APPVEYOR_BUILD_FOLDER%\..\downloads
       rem set DOWNLOAD_FILE_DOXYGEN=doxygen-1.8.14.windows.x64.bin.zip
       rem appveyor DownloadFile https://sourceforge.net/projects/doxygen/files/rel-1.8.14/%DOWNLOAD_FILE_DOXYGEN% -FileName %DOWNLOAD_FILE_DOXYGEN%
-      rem 7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\downloads\doxygen-1.8.14
+      rem 7z x %DOWNLOAD_FILE_DOXYGEN% -o%APPVEYOR_BUILD_FOLDER%\..\downloads\doxygen-1.8.14
       rem doxygen --version
       rem ##############
       if defined APPVEYOR_REPO_TAG_NAME (set SUPERGLU_REPO_VERSION=%SUPERGLU_VERSION%) else (set SUPERGLU_REPO_VERSION=latest)
@@ -160,7 +160,7 @@ before_build:
       set DOWNLOAD_ADDRESS_SUPERGLU=https://api.github.com/repos/coin3d/superglu/releases/assets/%ASSET_ID%
       echo download file %DOWNLOAD_FILE_SUPERGLU% from address %DOWNLOAD_ADDRESS_SUPERGLU%
       curl -s -S -L -H "Authorization: token %GH_AUTH_TOKEN%" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_SUPERGLU% %DOWNLOAD_ADDRESS_SUPERGLU%
-      7z x %DOWNLOAD_FILE_SUPERGLU% -o%APPVEYOR_BUILD_FOLDER%\downloads
+      7z x %DOWNLOAD_FILE_SUPERGLU% -o%APPVEYOR_BUILD_FOLDER%\..\downloads
       rem ##############
       if defined APPVEYOR_REPO_TAG_NAME (set COIN_REPO_VERSION=%COIN_VERSION%) else (set COIN_REPO_VERSION=latest)
       if defined APPVEYOR_REPO_TAG_NAME (set COIN_REPO_TAG_NAME=v%COIN_VERSION%) else (set COIN_REPO_TAG_NAME=CI-builds)
@@ -170,14 +170,14 @@ before_build:
       set DOWNLOAD_ADDRESS_COIN=https://api.github.com/repos/coin3d/coin/releases/assets/%ASSET_ID%
       echo download file %DOWNLOAD_FILE_COIN% from address %DOWNLOAD_ADDRESS_COIN%
       curl -s -S -L -H "Authorization: token %GH_AUTH_TOKEN%" -H "Accept: application/octet-stream" -o %DOWNLOAD_FILE_COIN% %DOWNLOAD_ADDRESS_COIN%
-      7z x %DOWNLOAD_FILE_COIN%     -o%APPVEYOR_BUILD_FOLDER%\downloads
+      7z x %DOWNLOAD_FILE_COIN%     -o%APPVEYOR_BUILD_FOLDER%\..\downloads
       rem ##############
       curl -s -S -L -H "Accept: application/octet-stream" -o wxdev.7z https://github.com/wxWidgets/wxWidgets/releases/download/v%WXWIDGETS_VERSION%/wxMSW-%WXWIDGETS_VERSION%_vc14x_x64_Dev.7z
-      7z x wxdev.7z -o%APPVEYOR_BUILD_FOLDER%\downloads
+      7z x wxdev.7z -o%APPVEYOR_BUILD_FOLDER%\..\downloads
       curl -s -S -L -H "Accept: application/octet-stream" -o wxinclude.7z https://github.com/wxWidgets/wxWidgets/releases/download/v%WXWIDGETS_VERSION%/wxWidgets-%WXWIDGETS_VERSION%-headers.7z
-      7z x wxinclude.7z -o%APPVEYOR_BUILD_FOLDER%\downloads
+      7z x wxinclude.7z -o%APPVEYOR_BUILD_FOLDER%\..\downloads
       rem ##############
-      cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DwxWidgets_ROOT_DIR=%APPVEYOR_BUILD_FOLDER%\downloads -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D -DCMAKE_PREFIX_PATH=%APPVEYOR_BUILD_FOLDER%\downloads\Coin3D
+      cmake -H. -Bbuild -G "%CMAKE_GENERATOR%" -A %CMAKE_ARCHITECTURE% -DwxWidgets_ROOT_DIR=%APPVEYOR_BUILD_FOLDER%\..\downloads -DCMAKE_INSTALL_PREFIX=%APPVEYOR_BUILD_FOLDER%\Coin3D -DCMAKE_PREFIX_PATH=%APPVEYOR_BUILD_FOLDER%\..\downloads\Coin3D
   - sh: |
       if [ -n "${APPVEYOR_REPO_TAG_NAME}" ]; then export CI_REPO_VERSION=${APPVEYOR_REPO_TAG_NAME:1}; else export CI_REPO_VERSION=latest; fi
       BUILD_SOURCE_ARCHIVE=$APPVEYOR_PROJECT_NAME-$CI_REPO_VERSION-src.tar.gz
