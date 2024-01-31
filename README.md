@@ -12,7 +12,9 @@ Thanks to the powerful porting support provided by wxWidgets SoWx compile and ru
   - GTK binding (preferred)
   - X11 binding
   - Qt binding
-- Windows 11 (Visual Studio 2022)
+- Windows 11
+	- Visual Studio 2022
+ 	- msys2 
 
 MacOS is in progress.
 
