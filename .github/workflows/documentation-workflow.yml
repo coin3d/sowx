@@ -3,7 +3,7 @@ name: Awesome Documentation Build
 on:
   workflow_dispatch:  # Allow manual triggers
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   ubuntu-build:
